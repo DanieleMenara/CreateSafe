@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+CreateSafe
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.min.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('css/basic.css') }}" />
+{% endblock %}
+
+{% block body %}
+<header>
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.php">
+        </a>
+      </div>
+      <nav id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href=#>Home</a></li>
+          <li><a href=#>Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Login</a></li>
+        </ul>
+      </nav><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </div>
+</header>
+<div class="container-fluid" id="mainBody">
+    <div class="row">
+        <div class="jumbotron">
+            <h1>CreateSafe!</h1>
+            <p>A quick, secure, easy way to register the copyright in your creative work.</p>
+            <p>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                Protect Now
+                </button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="uploadModal">Upload files to protect:</h4>
+      </div>
+      <div class="modal-body">
+        <form id="dropzone" action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$(document).ready(function () {
+    $("#dropzone").dropzone({
+        maxFilesize: 10, //MB; remember to change upload_max_filesize in php.ini too!!
+        acceptedFiles: "application/msword,application/pdf,image/*",
+        init: function() {
+          this.on("addedfile", function(file) {
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button class=\"btn btn-xs btn-danger\">Remove File</button>");
+
+
+            // Capture the Dropzone instance as closure.
+            var _this = this;
+
+            // Listen to the click event
+            removeButton.addEventListener("click", function(e) {
+              // Make sure the button click doesn't submit the form:
+              e.preventDefault();
+              e.stopPropagation();
+
+              // Remove the file preview.
+              _this.removeFile(file);
+            });
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+          });
+
+          //for debugging purposes, prints response to XMLHttpRequest when an error is returned
+          /*this.on("error", function(file, errorMessage, xhr) {
+            alert(xhr.responseText);
+          });*/
+        }
+    });
+});
+</script>
+ <script src="{{ asset('js/dropzone.js') }}"></script>
+{% endblock %}

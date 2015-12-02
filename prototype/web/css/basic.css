@@ -1,0 +1,19 @@
+#mainBody {
+	padding-top: 50px;
+}
+
+.jumbotron {
+	text-align: center;
+}
+
+.dz-preview {
+	text-align: center;
+}
+
+.btn-danger {
+	margin-top: 5px;
+}
+
+#cancel {
+	margin-top: 0px;
+}
