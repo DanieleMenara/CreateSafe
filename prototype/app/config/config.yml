@@ -87,3 +87,11 @@ oneup_uploader:
     orphanage:
         maxage: 86400
         directory: "%kernel.cache_dir%/uploader/orphanage"
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
