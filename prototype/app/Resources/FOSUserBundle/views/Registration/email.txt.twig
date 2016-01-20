@@ -1,0 +1,30 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% block subject %}
+{% autoescape false %}
+Welcome to CreateSafe
+{% endautoescape %}
+{% endblock %}
+{% block body_text %}
+{% autoescape false %}
+Welcome {{ user.firstName }}:
+
+Thank you for registering with CreateSafe. We're delighted to have you on board!
+
+Only one last step before having access to all functionalities!
+Click on this link to complete your registration:  {{ confirmationUrl }}
+
+Having created a customer account you can now immediately register the copyright in your creative work. You can also log in to check or change your personal information and email preferences, as well as accessing other useful options such as accessing your protected files.
+Your Login Information:
+Username: {{ user.username }}
+
+If you have forgotten your password please visit our site.
+Please keep this email for your records. If any of the information is incorrect, you can log into our site at any time to update it.
+
+Thank you for choosing CreateSafe!
+
+Kind Regards,
+
+CreateSafe
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}

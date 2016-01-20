@@ -50,7 +50,19 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+    }
+
+    //set usename == email since email is used as username
+    public function setEmail($email)
+    {
+        $email = is_null($email) ? '' : $email;
+        parent::setUsername($email);
+        return parent::setEmail($email);
+    }
+
+    public function setUsername($username)
+    {
+        return parent::setUsername($this->getEmail());
     }
 
     public function getFirstName() { return $this->firstName; }
