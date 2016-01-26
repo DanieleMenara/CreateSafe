@@ -1,8 +1,24 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{% form_theme form _self %}
 
-{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors is defined and errors|length > 0 %}
+            <span style="display: none;">
+                {% for error in errors %}
+                    {{ error.getMessage() }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+<h1 class="text-center login-title">Reset Password.</h1>
+<div class="account-wall">
+{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'form-signin fos_user_resetting_reset' } }) }}
     {{ form_widget(form) }}
     <div>
-        <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />
     </div>
 {{ form_end(form) }}
+</div>
+<a href="/" class="text-center new-account">CreateSafe</a>

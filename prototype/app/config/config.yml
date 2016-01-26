@@ -104,6 +104,9 @@ fos_user:
             template: FOSUserBundle/views/email/password_resetting.email.twig
         form:
             type: FOS\UserBundle\Form\Type\ResettingFormType
+    profile:
+            form:
+                type: AppBundle\Form\ProfileFType
     registration:
         confirmation:
             enabled: true

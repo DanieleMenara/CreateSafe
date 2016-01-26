@@ -1,14 +1,73 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
+{% block additionalStylesheets %}
+    <style>
+        .form-signin input.form-control {
+            margin-bottom: -1px;
+            border-radius: 0;
+        }
+        .form-signin input[name="fos_user_resetting_form[plainPassword][first]"]
+        {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .form-signin input[name="fos_user_resetting_form[plainPassword][second]"]
+        {
+            margin-bottom: 10px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .form-control {
+            display: inline !important;
+        }
+    </style>
+{% endblock %}
+
 {% block fos_user_content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <h1 class="text-center login-title">Registration.</h1>
-                <div class="account-wall">
-                    {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
 {% endblock fos_user_content %}
+
+{% block javascripts %}
+    <script>
+        $('form label').each(function() {
+            $(this).addClass('sr-only');
+        });
+
+        $('form input').each(function() {
+            if($(this).hasClass("btn")) {
+                return;
+            }
+            $(this).addClass('form-control');
+            var id = $(this).attr("id").split('_');
+            var placeholder;
+            switch(id[id.length - 1]) {
+                case "first":
+                    placeholder = "New Password";
+                    break;
+                case "second":
+                    placeholder = "Repeat Password";
+                    break;
+                default:
+                    placeholder = "";
+                    break;
+            }
+            $(this).attr("placeholder", placeholder);
+        });
+
+        $("#fos_user_resetting_form").children().each(function() {
+            if($(this).children('span').length > 0) {
+                var title = ($(this).children('span')[0]).innerText;
+                title = title.replace(/\s/g, '');
+                if(title == "fos_user.password.mismatch") {
+                    title = "Passwords do not match."
+                }
+                $(this).children('input').attr({ style:"background-color: rgb(242, 222, 222); color: rgb(169, 68, 66);", "data-toggle":"tooltip", "data-placement":"right", title:title })
+            }
+        });
+
+        //activates tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}
