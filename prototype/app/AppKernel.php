@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Payum\Bundle\PayumBundle\PayumBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

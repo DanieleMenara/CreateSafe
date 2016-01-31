@@ -21,6 +21,13 @@ class DefaultController extends Controller
     	if(!$session->isStarted()) {
     		$session->start();
     	}
+
+		//new sessionID if session existed already.
+		$session->migrate();
+		if($session->has('originalSessionID')) {
+			$session->remove('originalSessionID');
+		}
+
         return $this->render('default/index.html.twig');
     }
 }

@@ -61,12 +61,12 @@ CreateSafe
         <h4 class="modal-title" id="uploadModal">Upload files to protect:</h4>
       </div>
       <div class="modal-body">
-        <form id="dropzone" action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone">
+        <form id="dropzone" name="dropzone" action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone">
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" id="cancel" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Continue</button>
+        <a href="{{ path('payment') }}"><button type="button" class="btn btn-primary">Continue</button></a>
       </div>
     </div>
   </div>
@@ -102,9 +102,9 @@ $(document).ready(function () {
           });
 
           //for debugging purposes, prints response to XMLHttpRequest when an error is returned
-          /*this.on("error", function(file, errorMessage, xhr) {
+          this.on("error", function(file, errorMessage, xhr) {
             alert(xhr.responseText);
-          });*/
+          });
         }
     });
 });

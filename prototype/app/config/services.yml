@@ -8,3 +8,8 @@ services:
         class: AppBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
+    app.upload_listener:
+        class: AppBundle\EventListener\UploadListener
+        argument: ["@doctrine"]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_upload, method: onUpload }

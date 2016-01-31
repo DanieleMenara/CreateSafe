@@ -112,3 +112,17 @@ fos_user:
             enabled: true
         form:
             type: AppBundle\Form\RegistrationType
+
+payum:
+    security:
+        token_storage:
+            AppBundle\Entity\PaymentToken: { doctrine: orm }
+    storages:
+        AppBundle\Entity\Payment: { doctrine: orm }
+    gateways:
+        paypal_express_checkout:
+            paypal_express_checkout_nvp:
+                username:  'createsafedonotreply_api1.gmail.com'
+                password:  'P6WK3ZNUYUYGT4DY'
+                signature: 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-ALP4r4kejyatSWFqPbz5Bu26ar.u'
+                sandbox: true
