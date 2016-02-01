@@ -126,9 +126,6 @@ class PaymentController extends Controller
 
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
 
-        // you can invalidate the token. The url could not be requested any more.
-        // $this->get('payum.security.http_request_verifier')->invalidate($token);
-
         // Once you have token you can get the model from the storage directly.
         //$identity = $token->getDetails();
         //$payment = $payum->getStorage($identity->getClass())->find($identity);
@@ -137,16 +134,25 @@ class PaymentController extends Controller
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
-        // you have order and payment status
-        // so you can do whatever you want for example you can just print status and payment details.
+        //invalidate the token. The url could not be requested any more.
+        $this->get('payum.security.http_request_verifier')->invalidate($token);
 
-        return new JsonResponse(array(
+        //TODO: Can merge two pages into a single page with some conditionals. To be decided.
+        if($status->isCaptured()) {
+            //TODO: process files, and upload them to user's account.
+            return $this->render('payment/success.html.twig');
+        } else {
+            return $this->render('payment/unsuccess.html.twig');
+        }
+
+        //to be used for debugging purposes
+        /*return new JsonResponse(array(
             'status' => $status->getValue(),
             'payment' => array(
                 'total_amount' => $payment->getTotalAmount(),
                 'currency_code' => $payment->getCurrencyCode(),
                 'details' => $payment->getDetails(),
             ),
-        ));
+        ));*/
     }
 }
