@@ -29,9 +29,9 @@ CreateSafe
           <li><a href=#>Features</a></li>
           <li><a href="#">Pricing</a></li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li><a href="/profile">{{ app.user.firstName | capitalize }}</a></li>
+                <li><a href="{{ path('fos_user_profile_show') }}">{{ app.user.firstName | capitalize }}</a></li>
             {% else %}
-                <li><a href="/login">Login</a></li>
+                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
             {% endif %}
         </ul>
       </nav><!--/.nav-collapse -->
