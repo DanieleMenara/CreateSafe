@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ProtectedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -139,6 +140,17 @@ class PaymentController extends Controller
 
         //TODO: Can merge two pages into a single page with some conditionals. To be decided.
         if($status->isCaptured()) {
+            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            $files = $manager->uploadFiles();
+            foreach($files as $file) {
+                $protected = new ProtectedFile();
+                $protected->setUserID($this->getUser()->getId());
+                $protected->setFileName($file->getFilename());
+                $protected->setFile($file);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($protected);
+                $em->flush();
+            }
             //TODO: process files, and upload them to user's account.
             return $this->render('payment/success.html.twig');
         } else {

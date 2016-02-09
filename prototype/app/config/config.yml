@@ -86,9 +86,22 @@ oneup_uploader:
         gallery:
             frontend: dropzone
             use_orphanage: true
+            storage:
+                directory: %kernel.root_dir%/../web/protected/files
     orphanage:
         maxage: 86400
         directory: "%kernel.cache_dir%/uploader/orphanage"
+
+# app/config/config.yml
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+    mappings:
+         protected_file:
+              uri_prefix:         /protected/files
+              upload_destination: %kernel.root_dir%/../web/protected/files
+              inject_on_load:     true
+              delete_on_update:   true
+              delete_on_remove:   true
 
 fos_user:
     db_driver: orm
