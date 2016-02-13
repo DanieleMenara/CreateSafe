@@ -119,6 +119,27 @@ class PaymentController extends Controller
     }
 
     /**
+     * Rename each file before upload to a unique name (since all the files will be located in the same folder).
+     * Each file is renamed to a unique string generated using uniqid prefixed by the hashed username.
+     *
+     * @return array
+     */
+    private function renameFiles() {
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+        $files = $manager->getFiles();
+        $hashedUsername = password_hash($this->getUser()->getUsername(), PASSWORD_DEFAULT);
+        $names = array();
+        foreach($files as $file) {
+            $newName = uniqid($hashedUsername, true);
+            $newName = preg_replace('((^\.)|\/|(\.$)|(\$2y\$10\$)|\.)', '', $newName); //get rid of chars that can be conflict with path specifications (e.g. forward slash)
+            $name = $file->getFilename();
+            $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
+            rename($file->getPath().'/'.$name, $file->getPath().'/'.$newName.'.'.$file->getExtension());
+        }
+        return $names;
+    }
+
+    /**
      * @Route("/payment/done", name="done")
      */
     public function doneAction(Request $request)
@@ -141,17 +162,24 @@ class PaymentController extends Controller
         //TODO: Can merge two pages into a single page with some conditionals. To be decided.
         if($status->isCaptured()) {
             $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException();
+            }
+            $originalNames = $this->renameFiles();
+            //TODO: stamping files.
             $files = $manager->uploadFiles();
             foreach($files as $file) {
                 $protected = new ProtectedFile();
                 $protected->setUserID($this->getUser()->getId());
                 $protected->setFileName($file->getFilename());
+                $protected->setOriginalName($originalNames[$file->getFilename()]);
+                $protected->setExtension($file->getExtension());
+                $protected->setDateProtected(new \DateTime('now'));
                 $protected->setFile($file);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($protected);
                 $em->flush();
             }
-            //TODO: process files, and upload them to user's account.
             return $this->render('payment/success.html.twig');
         } else {
             return $this->render('payment/unsuccess.html.twig');

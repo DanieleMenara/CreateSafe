@@ -9,6 +9,11 @@ oneup_uploader:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+fos_user_profile_show:
+    path:     /profile
+    defaults: { _controller: FOSUserBundle:Profile:show }
+    methods: [GET, POST]
+
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"
 

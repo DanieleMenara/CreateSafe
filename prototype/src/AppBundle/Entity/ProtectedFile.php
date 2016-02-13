@@ -43,11 +43,32 @@ class ProtectedFile
     private $fileName;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $originalName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $extension;
+
+    /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="date")
+     *
+     * @var \DateTime
+     */
+    private $dateProtected;
 
     /**
      * @param int $newID
@@ -119,5 +140,65 @@ class ProtectedFile
     public function getFileName()
     {
         return $this->fileName;
+    }
+
+    /**
+     * @param string $newName
+     *
+     * @return ProtectedFile
+     */
+    public function setOriginalName($newName)
+    {
+        $this->originalName = $newName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalName()
+    {
+        return $this->originalName;
+    }
+
+    /**
+     * @param string $newExtension
+     *
+     * @return ProtectedFile
+     */
+    public function setExtension($newExtension)
+    {
+        $this->extension = $newExtension;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param string $newDate
+     *
+     * @return ProtectedFile
+     */
+    public function setDateProtected($newDate)
+    {
+        $this->dateProtected = $newDate;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateProtected()
+    {
+        return $this->dateProtected;
     }
 }

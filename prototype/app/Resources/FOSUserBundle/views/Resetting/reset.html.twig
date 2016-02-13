@@ -24,7 +24,13 @@
 {% endblock %}
 
 {% block fos_user_content %}
-    {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+            </div>
+        </div>
+    </div>
 {% endblock fos_user_content %}
 
 {% block javascripts %}

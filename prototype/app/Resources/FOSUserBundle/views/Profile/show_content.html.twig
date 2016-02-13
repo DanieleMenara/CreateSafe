@@ -1,0 +1,101 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="fos_user_user_show">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="" method="post" id="orderingForm">
+                    <span class="lead">Order by:</span>
+                    <div class="selector">
+                        <select id="orderBy" name="orderBy" onChange="refresh();">
+                            <option value="dateProtected:ASC">Date Protected A-Z</option>
+                            <option value="dateProtected:DESC">Date Protected Z-A</option>
+                            <option value="originalName:ASC">Name A-Z</option>
+                            <option value="originalName:DESC">Name Z-A</option>
+                            <option value="extension:ASC">Type A-Z</option>
+                            <option value="extension:DESC">Type Z-A</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 scrollable">
+                <ul class="list">
+                    {% for file in protectedFiles %}
+                        <li class="clearfix">
+                            <img class="preview" src="{{ asset("/protected/files/") ~ file.fileName }}">
+                            <div class="description">
+                                <label id="fileName" class="lead text-capitalize">{{ file.originalName }}</label>
+                                <label class="lead">{{ file.extension | upper }}</label>
+                                <label class="lead">{{ file.dateProtected.format('d/m/Y') }}</label>
+                            </div>
+                            <button class="view">VIEW</button>
+                            <div class="shortcuts">
+                                <img src="{{ asset("/images/icons/Download.png") }}">
+                                <img src="{{ asset("/images/icons/Print.png") }}">
+                                <img class="smaller" src="{{ asset("/images/icons/Mail.png") }}">
+                                <img src="{{ asset("/images/icons/Certificate.png") }}">
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="menu">
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/MyWorks.png") }}">
+                        </div>
+                        <p>My Works</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/MyWorks.png") }}">
+                        </div>
+                        <p>Protect New</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/CeaseDesist.png") }}">
+                        </div>
+                        <p>Cease &amp Desist</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img class="smaller" src="{{ asset("/images/icons/Payment.png") }}">
+                        </div>
+                        <p>Bill &amp Payments</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/InviteFriend.png") }}">
+                        </div>
+                        <p>Invite a Friend</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/Settings.png") }}">
+                        </div>
+                        <p>Account Settings</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/FAQs.png") }}">
+                        </div>
+                        <p>FAQs</p>
+                    </li>
+                    <li>
+                        <div class="menu-option">
+                            <img src="{{ asset("/images/icons/Support.png") }}">
+                        </div>
+                        <p>Support</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
