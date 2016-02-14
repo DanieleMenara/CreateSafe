@@ -27,4 +27,6 @@ Kind Regards,
 CreateSafe Team
 {% endautoescape %}
 {% endblock %}
-{% block body_html %}{% endblock %}
+{% block body_html %}
+{% include "FOSUserBundle:Registration:registrationHTMLmail.html.twig" %}
+{% endblock %}
