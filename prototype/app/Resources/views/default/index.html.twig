@@ -10,35 +10,8 @@ CreateSafe
 {% endblock %}
 
 {% block body %}
-<header>
-  <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.php">
-        </a>
-      </div>
-      <nav id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href=#>Home</a></li>
-          <li><a href=#>Features</a></li>
-          <li><a href="#">Pricing</a></li>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li><a href="{{ path('fos_user_profile_show') }}">{{ app.user.firstName | capitalize }}</a></li>
-            {% else %}
-                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-            {% endif %}
-        </ul>
-      </nav><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
-  </div>
-</header>
-<div class="container-fluid" id="mainBody">
+{% include 'navigationBar.html.twig' %}
+<div class="container-fluid">
     <div class="row">
         <div class="jumbotron">
             <h1>CreateSafe!</h1>
