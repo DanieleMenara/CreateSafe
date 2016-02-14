@@ -175,6 +175,7 @@ class PaymentController extends Controller
                 $protected->setOriginalName($originalNames[$file->getFilename()]);
                 $protected->setExtension($file->getExtension());
                 $protected->setDateProtected(new \DateTime('now'));
+                $protected->setRegistrationNumber(pathinfo($file->getFilename(), PATHINFO_FILENAME));
                 $protected->setFile($file);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($protected);

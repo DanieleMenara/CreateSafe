@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class ProfileController extends BaseController
 {
@@ -45,5 +46,51 @@ class ProfileController extends BaseController
             'user' => $user,
             'protectedFiles' => $files
         ));
+    }
+
+    public function viewProtectedWorkAction($id) {
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $file = $this->getDoctrine()
+            ->getRepository('AppBundle:ProtectedFile')
+            ->findOneBy(
+                array("userId" => $user->getId(), "registrationNumber" => $id)
+            );
+
+        if(!isset($file)) {
+            return $this->redirectToRoute('fos_user_profile_show');
+        }
+
+        return $this->render('profile/viewProtectedWork.html.twig', array(
+            'user' => $user,
+            'file' => $file
+        ));
+    }
+
+    public function deleteWorkAction($id) {
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $file = $this->getDoctrine()
+            ->getRepository('AppBundle:ProtectedFile')
+            ->findOneBy(
+                array("userId" => $user->getId(), "registrationNumber" => $id)
+            );
+
+        if(!isset($file)) {
+            return $this->redirectToRoute('fos_user_profile_show');
+        }
+
+        $em->remove($file);
+        $em->flush();
+
+        return $this->redirectToRoute('fos_user_profile_show');
     }
 }

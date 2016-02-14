@@ -2,58 +2,11 @@
 
 {% block additionalStylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sideBar.css') }}" />
     <style>
         hr {
             margin-left: 15px;
             margin-right: 15px;
-        }
-
-        .menu>a>li {
-            float: left;
-            width: 33%;
-            height: 115px;
-            padding: 10px;
-            font-size: 12px;
-            line-height: 1.4;
-            text-align: center;
-            background-color: white;
-            border: 1px solid #c2c2c2;
-            margin: 10px;
-            margin-top: 0px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            color: black;
-        }
-
-        .menu>a>li:hover {
-            background-color: #2185C5;
-            border-color: #1b6687;
-            color: white !important;
-        }
-
-        /* Trick to change img color to white on hovering */
-        .menu>a>li:hover>.menu-option>img{
-            filter: brightness(5000%);
-            -webkit-filter: brightness(5000%);
-            -moz-filter: brightness(5000%);
-            -o-filter: brightness(5000%);
-            -ms-filter: brightness(5000%);
-        }
-
-        .menu-option {
-            height: 75%;
-            padding-bottom: 1px;
-        }
-
-        .menu-option>img {
-            height: 90%;
-            max-width: 100%;
-        }
-
-        .menu>a>li>p {
-            display: block;
-            text-align: center;
-            word-wrap: break-word;
         }
 
         .list {
@@ -89,23 +42,6 @@
 
         label {
             display: block !important;
-        }
-
-        .shortcuts {
-            position: absolute;
-            bottom: 20px;
-            right: 10px;
-            padding-right: 10px;
-        }
-
-        .shortcuts>img {
-            display: inline;
-            height: 45px;
-            margin-right: 10px;
-        }
-
-        .smaller {
-            padding: 5px 0;
         }
 
         .view {
@@ -201,6 +137,20 @@
         #secondRow {
             margin-top: 20px;
         }
+
+        .shortcuts {
+            position: absolute;
+            bottom: 20px;
+            right: 10px;
+            padding-right: 10px;
+        }
+
+        .shortcuts>img {
+            display: inline;
+            height: 45px;
+            margin-right: 10px;
+        }
+
     </style>
 {% endblock %}
 

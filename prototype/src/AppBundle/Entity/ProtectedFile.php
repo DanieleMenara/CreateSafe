@@ -5,10 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @Vich\Uploadable
+ * @UniqueEntity("registrationNumber")
  */
 class ProtectedFile
 {
@@ -29,7 +31,7 @@ class ProtectedFile
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="protected_file", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="protected_file", fileNameProperty="fileName")
      *
      * @var File
      */
@@ -48,6 +50,13 @@ class ProtectedFile
      * @var string
      */
     private $originalName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $registrationNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -160,6 +169,26 @@ class ProtectedFile
     public function getOriginalName()
     {
         return $this->originalName;
+    }
+
+    /**
+     * @param string $newNumber
+     *
+     * @return ProtectedFile
+     */
+    public function setRegistrationNumber($newNumber)
+    {
+        $this->registrationNumber = $newNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegistrationNumber()
+    {
+        return $this->registrationNumber;
     }
 
     /**

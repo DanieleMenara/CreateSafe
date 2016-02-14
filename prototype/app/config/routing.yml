@@ -10,9 +10,19 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 fos_user_profile_show:
-    path:     /profile
+    path: /profile
     defaults: { _controller: FOSUserBundle:Profile:show }
     methods: [GET, POST]
+
+viewProtectedWork:
+    path: /profile/view/{id}
+    defaults: { _controller: FOSUserBundle:Profile:viewProtectedWork }
+    methods: [GET]
+
+deleteWork:
+  path: /profile/delete/{id}
+  defaults: { _controller: FOSUserBundle:Profile:deleteWork }
+  methods: [GET]
 
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"

@@ -10,40 +10,41 @@ CreateSafe
 {% endblock %}
 
 {% block body %}
-{% include 'navigationBar.html.twig' %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="jumbotron">
-            <h1>CreateSafe!</h1>
-            <p>A quick, secure, easy way to register the copyright in your creative work.</p>
-            <p>
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                Protect Now
-                </button>
-            </p>
+    {% include 'navigationBar.html.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="jumbotron">
+                <h1>CreateSafe!</h1>
+                <p>A quick, secure, easy way to register the copyright in your creative work.</p>
+                <p>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    Protect Now
+                    </button>
+                </p>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="uploadModal">Upload files to protect:</h4>
-      </div>
-      <div class="modal-body">
-        <form id="dropzone" name="dropzone" action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" id="cancel" data-dismiss="modal">Cancel</button>
-        <a href="{{ path('payment') }}"><button type="button" class="btn btn-primary">Continue</button></a>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="uploadModal">Upload files to protect:</h4>
+          </div>
+          <div class="modal-body">
+            <form id="dropzone" name="dropzone" action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="cancel" data-dismiss="modal">Cancel</button>
+            <a href="{{ path('payment') }}"><button type="button" class="btn btn-primary">Continue</button></a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    {% include 'footer.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

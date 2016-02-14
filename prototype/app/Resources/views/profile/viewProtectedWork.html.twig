@@ -1,0 +1,91 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block additionalStylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sideBar.css') }}" />
+    <style>
+        .box {
+            height: 520px !important;
+            position: relative;
+            background-color: white;
+            border: 1px solid #c2c2c2;
+            line-height: 1.4;
+            padding-left: 5px;
+            margin-bottom: 15px;
+        }
+
+        .preview {
+            float: left;
+            height: 80%;
+            width: 40%;
+            margin: 10px;
+            margin-right: 30px;
+        }
+
+        .description {
+            padding-top: 10px;
+        }
+
+        label {
+            display: block !important;
+        }
+
+        #registrationNumber {
+            width: 45%;
+            float: left;
+            word-wrap:break-word;
+        }
+
+        .row {
+            margin-top: 20px;
+        }
+
+        .shortcuts {
+            padding-top: 20px;
+            clear: left;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .shortcuts img {
+            height: 45px;
+            display: inline-block;
+            margin: 0 6%;
+            position: relative;
+        }
+
+        .shortcuts a {
+            height: 100% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block fos_user_content %}
+    {% include "navigationBar.html.twig" %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box">
+                    <img class="preview" src="{{ asset("/protected/files/") ~ file.fileName }}">
+                    <div class="description">
+                        <label id="fileName" class="lead text-capitalize">{{ file.originalName }}</label>
+                        <label class="lead">{{ file.extension | upper }}</label>
+                        <label class="lead">{{ file.dateProtected.format('jS F Y') }}</label>
+                        <label class="lead">CreateSafe Registration Number:</label>
+                        <label id="registrationNumber" class="lead">{{ file.registrationNumber }}</label>
+                    </div>
+                    <div class="shortcuts">
+                        <img src="{{ asset("/images/icons/Download.png") }}">
+                        <img src="{{ asset("/images/icons/Print.png") }}">
+                        <img class="smaller" src="{{ asset("/images/icons/Mail.png") }}">
+                        <img src="{{ asset("/images/icons/Certificate.png") }}">
+                        <a onclick="return confirm('Do you really want to delete this work?\nOnce deleted it will not be possible to restore it.')" href="{{ path('deleteWork', {'id':file.registrationNumber}) }}">
+                            <img src="{{ asset("/images/icons/Delete.png") }}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% include 'profile/sideBar.html.twig' %}
+        </div>
+    </div>
+{% endblock fos_user_content %}
