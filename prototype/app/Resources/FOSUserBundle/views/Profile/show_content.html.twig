@@ -7,7 +7,7 @@
                 <form action="" method="post" id="orderingForm">
                     <span class="lead">Order by:</span>
                     <div class="selector">
-                        <select id="orderBy" name="orderBy" onChange="refresh();">
+                        <select id="orderBy" name="orderBy" onChange="reorder();">
                             <option value="dateProtected:ASC">Date Protected A-Z</option>
                             <option value="dateProtected:DESC">Date Protected Z-A</option>
                             <option value="originalName:ASC">Name A-Z</option>
@@ -17,6 +17,10 @@
                         </select>
                     </div>
                 </form>
+            </div>
+            <div class="col-md-6" id="searchDiv">
+                <input id="search" type="text" placeholder="Search Your Works" maxlength="25" oninput="search();"/>
+                <img class="magGlass" src="{{ asset("/images/icons/magGlass.png") }}">
             </div>
         </div>
     </div>

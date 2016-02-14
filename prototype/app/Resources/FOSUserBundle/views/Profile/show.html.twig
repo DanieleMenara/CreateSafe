@@ -121,6 +121,37 @@
             border: 1px solid deepskyblue;
         }
 
+        #searchDiv {
+            height: 30px;
+        }
+
+        #search {
+            width: 200px;
+            display: inline;
+            height: 30px;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+            appearance:none;
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            border-radius:4px;
+            border: 1px solid #33ccff;
+            font-size: 14px;
+            line-height: 1.42857143;
+            padding: 6px 12px;
+            outline: none;
+            position: absolute;
+            right: 20px;
+            clear: both;
+        }
+
+        .magGlass {
+            height: 25px;
+            position: absolute;
+            right: 27px;
+            margin-top: 3px;
+        }
+
         select {
             width: 200px !important;
             display: inline !important;
@@ -177,7 +208,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        function refresh() {
+        function reorder() {
             $.ajax({
                 type: "POST",
                 url: "{{ path('fos_user_profile_show') }}",
@@ -201,6 +232,20 @@
                     return 0;
                 });
                 ul.append(li);
+            });
+        }
+
+        function search() {
+            var ul = $('.list');
+            var li = ul.find("li");
+            var value = $('#search').val().toLowerCase();
+            li.each(function(index) {
+                var name = $($(this).find('#fileName')[0]).text().toLowerCase();
+                if(name.search(value) == -1) {
+                    $(this).attr("style","display: none !important");
+                } else {
+                    $(this).attr("style","display: block");
+                }
             });
         }
     </script>

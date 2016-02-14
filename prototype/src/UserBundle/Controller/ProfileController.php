@@ -21,7 +21,7 @@ class ProfileController extends BaseController
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $orderBy = "originalName:ASC"; // set default order
+        $orderBy = "dateProtected:ASC"; // set default order
 
         if ($request->isXMLHttpRequest() && null !== $request->request->get('orderBy')) {
             $orderBy = $request->request->get('orderBy');
