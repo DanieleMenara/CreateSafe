@@ -180,6 +180,7 @@ class PaymentController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($protected);
                 $em->flush();
+                //TODO: send certificate email
             }
             return $this->render('payment/success.html.twig');
         } else {

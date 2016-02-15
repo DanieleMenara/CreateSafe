@@ -22,3 +22,31 @@
     {% endblock fos_user_content %}
     {% include "footer.html.twig" %}
 {% endblock %}
+
+{% block additionalJavascripts %}
+    <script type="text/javascript">
+        function inviteFriend() {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('inviteFriend') }}",
+                data: { email: $('#email').val() }
+            })
+            .done(function(data) {
+                var response = jQuery.parseJSON(data);
+                if(response.success === 'true') {
+                    $('#inviteFriend').modal('hide')
+                } else {
+                    /* for debugging purposes */
+                    if(response.hasOwnProperty('invalidEmail')) {
+                        alert("The email address you inserted is not valid.");
+                    }
+                    else if(response.hasOwnProperty('error')) {
+                        alert(response.error);
+                    }
+                }
+            });
+        }
+    </script>
+    {% block javascripts %}
+    {% endblock %}
+{% endblock %}

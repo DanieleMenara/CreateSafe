@@ -32,7 +32,7 @@
                 <p>Bill &amp Payments</p>
             </li>
         </a>
-        <a href="">
+        <a data-toggle="modal" data-target="#inviteFriend">
             <li>
                 <div class="menu-option">
                     <img src="{{ asset("/images/icons/InviteFriend.png") }}">
@@ -65,4 +65,21 @@
             </li>
         </a>
     </ul>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="inviteFriend" tabindex="-1" role="dialog" aria-labelledby="inviteFriendLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Insert friend's email:</h4>
+            </div>
+            <div class="modal-body">
+                <span>Email address:</span>
+                <input type="email" id="email" name="email" placeholder="Email" required="required" />
+                <button onClick="inviteFriend();" class="btn btn-lg btn-primary btn-block" id="inviteButton">Invite Friend</button>
+            </div>
+        </div>
+    </div>
 </div>

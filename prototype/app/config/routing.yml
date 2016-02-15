@@ -24,6 +24,11 @@ deleteWork:
   defaults: { _controller: FOSUserBundle:Profile:deleteWork }
   methods: [GET]
 
+inviteFriend:
+  path: /profile/inviteFriend
+  defaults: { _controller: FOSUserBundle:Profile:inviteFriend }
+  methods: [POST]
+
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"
 

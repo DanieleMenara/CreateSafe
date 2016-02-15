@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints as Assert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class ProfileController extends BaseController
@@ -92,5 +94,54 @@ class ProfileController extends BaseController
         $em->flush();
 
         return $this->redirectToRoute('fos_user_profile_show');
+    }
+
+    public function inviteFriendAction(Request $request) {
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $response = array('success' => 'false');
+        if ($request->isXMLHttpRequest() && null !== $request->request->get('email')) {
+            $emailTo = $request->request->get('email');
+            $emailConstraint = new Assert\Email();
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errorList = $this->get('validator')->validate(
+                $emailTo,
+                $emailConstraint
+            );
+            if(0 === count($errorList)) {
+                try {
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Join CreateSafe')
+                        ->setFrom(array('createsafedonotreply@gmail.com' => 'CreateSafe'))
+                        ->setTo($emailTo)
+                        ->setBody(
+                            $this->renderView(
+                                'views/email/inviteFriends.html.twig',
+                                array('confirmationUrl' => '/', 'user' => $this->getUser())
+                            ),
+                            'text/html'
+                        );
+                    $this->get('mailer')->send($message);
+                    $response['success'] = 'true';
+                } catch (\Exception $e) {
+                    $response['success'] = 'false';
+
+                    //use for debugging purposes
+                    //$response['error'] = $e->getMessage();
+                }
+            } else {
+                $response['invalidEmail'] = true;
+            }
+        }
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        return new Response($serializer->serialize($response, 'json'));
     }
 }
