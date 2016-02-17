@@ -87,7 +87,7 @@ class PaymentController extends Controller
                 'expanded' => true,
                 'multiple' => false
             ))
-            ->add('pay', SubmitType::class, array('label' => 'Pay'))
+            ->add('pay', SubmitType::class, array('label' => 'Complete purchase'))
             ->setAction($this->generateUrl('paymentProcessing'))
             ->getForm();
         return $form;
@@ -182,10 +182,15 @@ class PaymentController extends Controller
                 $em->flush();
                 //TODO: send certificate email
             }
-            return $this->render('payment/success.html.twig');
+            $response = $this->render('payment/success.html.twig');
         } else {
-            return $this->render('payment/unsuccess.html.twig');
+            $response =  $this->render('payment/unsuccess.html.twig');
         }
+
+        //after 3 seconds redirect to user's profile
+        $response->headers->set('Refresh', '3; '.$this->get('router')->generate('fos_user_profile_show'));
+
+        return $response;
 
         //to be used for debugging purposes
         /*return new JsonResponse(array(

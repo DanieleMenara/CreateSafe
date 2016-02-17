@@ -10,7 +10,10 @@
 {% endblock %}
 
 
-<h1 class="text-center login-title">Request Password Reset.</h1>
+<div style="position: relative; text-align: center">
+    <a href="{{ path('homepage') }}"><img class="text-center" id="logo" alt="CreateSafe Logo" src="{{ asset("/images/logo/logo.png") }}"></a>
+    <h1 style="font-size: 2em" class="text-center login-title">Request Password Reset</h1>
+</div>
 <div class="account-wall">
     {% if invalid_username is defined %}
         <div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -25,8 +28,7 @@
             <input class="form-control" type="email" id="username" name="username" required="required" placeholder="Email"/>
         </div>
         <div>
-            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />
+            <input class="btn btn-lg blueButton btn-block" type="submit" value="Submit" />
         </div>
     </form>
 </div>
-<a href="/" class="text-center new-account">CreateSafe</a>

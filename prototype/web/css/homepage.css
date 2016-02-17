@@ -1,0 +1,132 @@
+.jumbotron{
+    position: relative;
+    z-index:+101;
+    color: white;
+}
+
+.jumbotron h1 {
+    color: #41C8FF;
+}
+
+#onVideo {
+    margin-top: 15%;
+}
+
+#video-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -100;
+    width:100%;
+}
+
+@media (min-width: 768px) {
+    header {
+        position: absolute;
+        width: 100%;
+        z-index: +102;
+    }
+    /*set colours for dropdown when the background is transparent*/
+    .dropdown-menu {
+        outline: none;
+        border: none !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        box-shadow: none !important;
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        border-radius: 0 !important;
+        background-color: rgba(221, 222, 227, 0.5) !important;
+    }
+
+    .navbar {
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+
+    .navbar-default .navbar-brand {
+        color: #232829;
+    }
+
+    .navbar-default .navbar-brand:hover,
+    .navbar-default .navbar-brand:focus {
+        color: #33ccff;
+    }
+
+    .navbar-default .navbar-text {
+        color: white;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: white;
+    }
+
+    .navbar-default .navbar-nav > li > a:focus {
+        color: white;
+    }
+
+    .navbar-default .navbar-nav > li > a:hover {
+        color: #33ccff;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu {
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+        color: white;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+        color: #33ccff;
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > .divider {
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: #33ccff;
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-nav > .open > a,
+    .navbar-default .navbar-nav > .open > a:hover,
+    .navbar-default .navbar-nav > .open > a:focus {
+        color: #33ccff;
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-toggle {
+        border-color: transparent;
+    }
+
+    .navbar-default .navbar-toggle:hover,
+    .navbar-default .navbar-toggle:focus {
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: #232829;
+    }
+
+    .navbar-default .navbar-collapse,
+    .navbar-default .navbar-form {
+        border-color: #232829;
+    }
+
+    .navbar-default .navbar-link {
+        color: #232829;
+    }
+
+    .navbar-default .navbar-link:hover {
+        color: #33ccff;
+    }
+}

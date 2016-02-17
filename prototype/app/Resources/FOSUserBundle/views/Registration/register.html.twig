@@ -26,8 +26,11 @@
 {% block fos_user_content %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <h1 class="text-center login-title">Registration.</h1>
+            <div class="col-sm-6 col-md-4 col-sm-offset-4">
+                <div style="position: relative; text-align: center">
+                    <a href="{{ path('homepage') }}"><img class="text-center" id="logo" alt="CreateSafe Logo" src="{{ asset("/images/logo/logo.png") }}"></a>
+                    <h1 style="font-size: 2em" class="text-center login-title">Registration</h1>
+                </div>
                 <div class="account-wall">
                     {% include "FOSUserBundle:Registration:register_content.html.twig" %}
                 </div>

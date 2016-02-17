@@ -1,10 +1,10 @@
 html, body {
-    background-color: #f9f9f9 !important;
+    background-color: #ffffff !important;
     min-height: 100%;
 }
 
-html {
-    position: relative;
+html, label, p {
+    font-family: "Gill Sans" !important;
 }
 
 /*account for footer*/
@@ -12,14 +12,68 @@ body {
     padding-bottom: 50px;
 }
 
+#dropzone {
+    border: 3px dashed lightgray;
+}
+
+#dropzone span {
+    color: dimgray;
+    font-size: 1.6em;
+}
+
+#logo {
+    height: 120px;
+    display: inline-block;
+    position: relative;
+}
+
+.blueButton {
+    background-color: #41C8FF;
+    color: white;
+    border: 0px;
+    -webkit-border-radius:1px !important;
+    -moz-border-radius:1px !important;
+    border-radius:1px !important;
+}
+
+.blueButton:hover {
+    background-color: #397fb4;
+}
+
+.greyButton {
+    background-color: #999999;
+    color: white;
+    border: 0px;
+    -webkit-border-radius:1px !important;
+    -moz-border-radius:1px !important;
+    border-radius:1px !important;
+}
+
+.greyButton:hover {
+    background-color: #787878;
+}
+
+button, .blueButton {
+    outline: none !important;
+}
+
+.greyButton:hover, .greyButton:active, .greyButton:focus, .blueButton:hover, .blueButton:active, .blueButton:focus {
+    color: white !important;
+}
+
+
 .brand {
     height: 100%;
     display: inline !important;
 }
 
+#CreateSafe {
+    padding-top: 5px;
+}
+
 .navbar {
     font-size: 1.1em;
-    background-color: white !important;
+    background-color: white;
     -webkit-border-radius:0px !important;
     -moz-border-radius:0px !important;
     border-radius:0px !important;
@@ -53,9 +107,9 @@ body {
     color: red;
     text-transform: uppercase;
     border: 2px solid red;
-    -webkit-border-radius:2px;
-    -moz-border-radius:2px;
-    border-radius:2px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:1px;
     cursor: pointer;
 }
 

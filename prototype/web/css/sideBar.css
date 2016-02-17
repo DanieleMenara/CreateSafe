@@ -1,7 +1,12 @@
+html, body {
+    background-color: #f9f9f9 !important;
+}
+
 .menu {
     position: relative;
     display: block;
     text-align: center;
+    padding-left: 0px !important;
 }
 
 .menu>a>li {
@@ -42,7 +47,8 @@
 }
 
 .menu-option>img {
-    height: 90%;
+    margin-top: 5px;
+    height: 70%;
     max-width: 100%;
 }
 
@@ -50,28 +56,11 @@
     display: block;
     text-align: center;
     word-wrap: break-word;
+    font-size: 1.15em;
 }
 
 .smaller {
     padding: 5px 0;
-}
-
-#inviteButton {
-    font-size: 1.2em;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-    background-color: black;
-    color: white;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    margin: 20px 0;
-    border: none;
-}
-
-#inviteFriend button {
-    outline: none;
 }
 
 #inviteFriend span {

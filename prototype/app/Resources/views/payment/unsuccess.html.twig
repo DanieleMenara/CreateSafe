@@ -6,17 +6,45 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/form.css') }}">
+    <style>
+        @font-face {
+            font-family: Suarez;
+            src: url({{ asset('fonts/Suarez.otf') }});
+        }
+
+        h2 {
+            font-family: Suarez;
+            font-size: 4em;
+        }
+
+        img {
+            max-height: 150px;
+        }
+
+        h3 {
+            font-size: 1.2em;
+        }
+
+        p {
+            color: dimgray;
+        }
+
+        .account-wall {
+            margin-top: 23%;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <h1 class="text-center login-title">Payment.</h1>
+            <div class="col-sm-6 col-md-4 col-sm-offset-4">
                 <div class="account-wall">
-                    <div class="form-signin" style="color: firebrick; font-size: 4em; text-align: center;">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        <h3>Unfortunately the upload of your files was unsuccessful...try again.</h3>
+                    <div class="form-signin" style="text-align: center;">
+                        <img src="{{ asset('images/logo/LogoFailure.png') }}" alt="Successful Payment"/>
+                        <h2 style="color: firebrick;">Ops!</h2>
+                        <h3>Something went wrong and we couldn't complete your order.</h3>
+                        <p>You will now be redirected back to your account page.</p>
                     </div>
                 </div>
             </div>

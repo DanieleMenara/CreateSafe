@@ -11,9 +11,9 @@
         <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
             <li>
                 <div class="menu-option">
-                    <img src="{{ asset("/images/icons/MyWorks.png") }}">
+                    <img style="height: 100%; margin-top: -5px;" src="{{ asset("/images/icons/ProtectNew.png") }}">
                 </div>
-                <p>Protect New</p>
+                <p>Register New</p>
             </li>
         </a>
         <a href="">
@@ -32,7 +32,7 @@
                 <p>Bill &amp Payments</p>
             </li>
         </a>
-        <a data-toggle="modal" data-target="#inviteFriend">
+        <a style="cursor: pointer;" data-toggle="modal" data-target="#inviteFriend">
             <li>
                 <div class="menu-option">
                     <img src="{{ asset("/images/icons/InviteFriend.png") }}">
@@ -78,7 +78,7 @@
             <div class="modal-body">
                 <span>Email address:</span>
                 <input type="email" id="email" name="email" placeholder="Email" required="required" />
-                <button onClick="inviteFriend();" class="btn btn-lg btn-primary btn-block" id="inviteButton">Invite Friend</button>
+                <button onClick="inviteFriend();" class="btn btn-lg blueButton btn-block" id="inviteButton">Invite Friend</button>
             </div>
         </div>
     </div>
