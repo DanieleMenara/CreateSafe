@@ -19,8 +19,7 @@ CreateSafe
                     <source src="{{ path('video') }}" type="video/mp4">
                 </video>
                 <div id="onVideo">
-                    <h1>CreateSafe!</h1>
-                    <p>A quick, secure, easy way to register the copyright in your creative work.</p>
+                    <h1>Copyright Registration<br>for creatives!</h1>
                     <p>
                         <button type="button" class="btn blueButton btn-lg" data-toggle="modal" data-target="#myModal">
                         Protect Now
@@ -29,8 +28,73 @@ CreateSafe
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>CreateSafe is a quick, secure, easy way to register the copyright in your creative work.</h2>
+                <div class="container-fluid">
+                    <div class="small-box">
+                        <img alt="Art Icon" src="{{ asset('images/homepage/Art.png') }}"/>
+                        <h3>Art</h3>
+                    </div>
+                    <div class="small-box">
+                        <img alt="Script Icon" src="{{ asset('images/homepage/Film.png') }}"/>
+                        <h3>Scripts</h3>
+                    </div>
+                    <div class="small-box">
+                        <img alt="Books Icon" src="{{ asset('images/homepage/Books.png') }}"/>
+                        <h3>Books</h3>
+                    </div>
+                    <div class="small-box">
+                        <img alt="Photos Icon" src="{{ asset('images/homepage/Photos.png') }}"/>
+                        <h3>Photos</h3>
+                    </div>
+                    <div class="small-box">
+                        <img alt="Music Icon" src="{{ asset('images/homepage/Music.png') }}"/>
+                        <h3>Music</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Three Quick and Easy Step</h2>
+                <p>In just two minutes, you can have a copy of your work certified.</p>
+                <div class="container-fluid">
+                    <div class="small-box">
+                        <div class="circle">
+                            <h2>1</h2>
+                            <img alt="Upload" src="{{ asset('images/homepage/Upload.png') }}"/>
+                        </div>
+                        <div class="text-left">
+                            <h4>Upload</h4>
+                            <p>Your book, music or image to CreateSafe in PDG, Word, PNG or JPG formats.</p>
+                        </div>
+                    </div>
+                    <div class="small-box">
+                        <div class="circle">
+                            <h2>2</h2>
+                            <img alt="CreateSafe Logo" src="{{ asset('images/icons/ProtectNew.png') }}"/>
+                        </div>
+                        <div class="text-left">
+                            <h4>Protected</h4>
+                            <p>Congratulations. Your work is stamped and dated. Copyright registered.</p>
+                        </div>
+                    </div>
+                    <div class="small-box">
+                        <div class="circle">
+                            <h2>3</h2>
+                            <img alt="Certificate" src="{{ asset('images/icons/Certificate.png') }}"/>
+                        </div>
+                        <div class="text-left">
+                            <h4>Certified Copy</h4>
+                            <p>We send you your certificate with your work's unique registration code.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% include 'footer.html.twig' %}
 {% endblock %}
 
 {% block additionalJavascripts %}

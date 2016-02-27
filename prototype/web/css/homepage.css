@@ -1,26 +1,128 @@
+hr {
+    margin: 20px 20px;
+}
+
 .jumbotron{
     position: relative;
-    z-index:+101;
     color: white;
+    z-index: 1;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden;
 }
 
 .jumbotron h1 {
-    color: #41C8FF;
+    color: white;
+    font-size: 3.5em;
+    font-weight: 400;
 }
 
 #onVideo {
-    margin-top: 15%;
+    position: relative;
+    margin-top: 5%;
+    height: 100%;
 }
 
 #video-background {
     position: absolute;
-    top: 0;
+    top: -50px;
     right: 0;
     bottom: 0;
     left: 0;
     overflow: hidden;
     z-index: -100;
-    width:100%;
+    width: 100%;
+    -webkit-filter: brightness(75%);
+    -moz-filter: brightness(75%);
+    -o-filter: brightness(75%);
+    -ms-filter: brightness(75%);
+}
+
+h2 {
+    margin: 0 175px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+h4 {
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.15em;
+    font-weight: lighter;
+}
+
+.col-xs-12 .container-fluid {
+    margin-top: 30px;
+}
+
+.container-fluid {
+    text-align: center;
+}
+
+.small-box {
+    display: inline-block;
+    margin: 0 6%;
+    max-width: 200px;
+}
+
+.small-box img {
+    height: 50px;
+}
+
+.small-box h3 {
+    font-size: 1.2em;
+    color: #41C8FF;
+    font-weight: normal;
+    padding: 10px;
+    border: 1px solid #41C8FF;
+    -webkit-border-radius: 2px !important;
+    -moz-border-radius: 2px !important;
+    border-radius: 2px !important;
+}
+
+.circle {
+    -webkit-border-radius: 100% !important;
+    -moz-border-radius: 100% !important;
+    border-radius: 100% !important;
+    overflow: hidden;
+    height: 200px;
+    width: 200px;
+    background-color: #41C8FF;
+    position: relative;
+}
+
+.circle h2 {
+    position: absolute;
+    color: white;
+    top: 20px;
+    left: 40px;
+    margin: 0;
+}
+
+.circle img{
+    padding: 50px;
+    height: 200px;
+}
+
+@media (max-width: 768px) {
+    .jumbotron {
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) and (max-height: 992px) {
+    .jumbotron {
+        height: 350px;
+    }
+}
+
+@media (min-width: 992px) {
+    .jumbotron {
+        height: 500px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -29,6 +131,7 @@
         width: 100%;
         z-index: +102;
     }
+
     /*set colours for dropdown when the background is transparent*/
     .dropdown-menu {
         outline: none;
@@ -53,7 +156,7 @@
 
     .navbar-default .navbar-brand:hover,
     .navbar-default .navbar-brand:focus {
-        color: #33ccff;
+        color: #41C8FF;
     }
 
     .navbar-default .navbar-text {
@@ -69,7 +172,7 @@
     }
 
     .navbar-default .navbar-nav > li > a:hover {
-        color: #33ccff;
+        color: #41C8FF;
     }
 
     .navbar-default .navbar-nav > li > .dropdown-menu {
@@ -82,7 +185,7 @@
 
     .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
     .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
-        color: #33ccff;
+        color: #41C8FF;
         background-color: transparent;
     }
 
@@ -93,14 +196,14 @@
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
-        color: #33ccff;
+        color: #41C8FF;
         background-color: transparent;
     }
 
     .navbar-default .navbar-nav > .open > a,
     .navbar-default .navbar-nav > .open > a:hover,
     .navbar-default .navbar-nav > .open > a:focus {
-        color: #33ccff;
+        color: #41C8FF;
         background-color: transparent;
     }
 
@@ -127,6 +230,6 @@
     }
 
     .navbar-default .navbar-link:hover {
-        color: #33ccff;
+        color: #41C8FF;
     }
 }
