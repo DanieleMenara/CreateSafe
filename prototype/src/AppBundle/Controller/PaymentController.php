@@ -156,7 +156,7 @@ class PaymentController extends Controller
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
-        //invalidate the token. The url could not be requested any more.
+        //invalidate the token. The url cannot be requested any more.
         $this->get('payum.security.http_request_verifier')->invalidate($token);
 
         //TODO: Can merge two pages into a single page with some conditionals. To be decided.
@@ -168,6 +168,7 @@ class PaymentController extends Controller
             $originalNames = $this->renameFiles();
             //TODO: stamping files.
             $files = $manager->uploadFiles();
+            $protectedFiles = array();
             foreach($files as $file) {
                 $protected = new ProtectedFile();
                 $protected->setUserID($this->getUser()->getId());
@@ -180,7 +181,29 @@ class PaymentController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($protected);
                 $em->flush();
-                //TODO: send certificate email
+                $protectedFiles[] = $protected;
+            }
+            //send certification email
+            try {
+                $user = $this->getUser();
+                $emailTo = $user->getEmail();
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Congratulations!')
+                    ->setFrom(array('createsafedonotreply@gmail.com' => 'CreateSafe'))
+                    ->setTo($emailTo)
+                    ->setBody(
+                        $this->renderView(
+                            'views/email/certification.html.twig',
+                            array('files' => $protectedFiles)
+                        ),
+                        'text/html'
+                    );
+                $this->get('mailer')->send($message);
+            } catch (\Exception $e) {
+                //TODO: log exception;
+                return new Response($protectedFiles);
+                //use for debugging purposes
+                //$response['error'] = $e->getMessage();
             }
             $response = $this->render('payment/success.html.twig');
         } else {

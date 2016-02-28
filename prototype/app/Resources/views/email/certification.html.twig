@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('Bootstrap/css/bootstrap.min.css') }}">
+    <style>
+        html {
+            background-color: #f9f9f9 !important;
+        }
+
+        img {
+            margin: auto 5px;
+        }
+
+        .header {
+            background-color: white;
+        }
+
+        img {
+            height: 100px;
+        }
+
+        .col-sm-12 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.05em;
+            line-height: 2;
+            padding: 20px 80px;
+        }
+
+        .registrationNumber {
+            font-size: 1.2em;
+            padding: 10px;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+            appearance:none;
+            background-color: black;
+            color: white;
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            max-width: 615px;
+            margin: auto;
+            outline: none;
+            border: none;
+        }
+
+        button {
+            padding: 5px 20px;
+            text-transform: uppercase;
+            border: 2px solid black;
+            -webkit-border-radius:1px;
+            -moz-border-radius:1px;
+            border-radius:1px;
+            cursor: pointer;
+            margin: auto;
+            margin-bottom: 50px;
+            background-color: transparent;
+            font-size: 1.8em;
+        }
+
+        h2 {
+            font-family: "Comic Sans MS", serif;
+            font-size: 2em;
+            font-weight: 200;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="fos_user_user_show">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 header">
+                <img alt="CreateSafe" src="{{ app.request.schemeAndHttpHost ~ asset("/images/logo/CreateSafe.png") }}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>CONGRATULATIONS</h1>
+        </div>
+    </div>
+    {% for protected in files %}
+        <div class="row">
+            <div class="col-sm-12">
+                <p>You have successfully registered the copyright in your work "{{ protected.originalName }}". Your unique certification number is below.</p>
+                <p class="registrationNumber">{{ protected.registrationNumber }}</p><br>
+                <img alt="Logo" src="{{ app.request.schemeAndHttpHost ~ asset("/images/logo/logo.png") }}">
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Need to register another work?</h2>
+            <button>Register</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

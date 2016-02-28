@@ -3,6 +3,11 @@ html, body {
     min-height: 100%;
 }
 
+.blue-background {
+    background-color: #41C8FF;
+    color: white;
+}
+
 html, label, p {
     font-family: "Gill Sans" !important;
 }
@@ -30,10 +35,20 @@ body {
 .blueButton {
     background-color: #41C8FF;
     color: white;
-    border: 0px;
+    border: 0;
     -webkit-border-radius:1px !important;
     -moz-border-radius:1px !important;
     border-radius:1px !important;
+}
+
+#impliedsubmit {
+    background-color: #41C8FF;
+    color: white;
+    border: 0;
+    -webkit-border-radius:1px !important;
+    -moz-border-radius:1px !important;
+    border-radius:1px !important;
+    outline: none !important;
 }
 
 .blueButton:hover {

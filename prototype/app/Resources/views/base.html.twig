@@ -30,6 +30,25 @@
         <script src="{{ asset('Bootstrap/js/bootstrap.min.js') }}"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="{{ asset('Bootstrap/js/ie10-viewport-bug-workaround.js') }}"></script>
+        <script src="{{ asset('js/jquery.cookiesdirective.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $.cookiesDirective({
+                    privacyPolicyUri: 'my-privacy-policy.html',
+                    explicitConsent: false, // false allows implied consent
+                    position: 'bottom', // top or bottom of viewport
+                    duration: 10, // display time in seconds
+                    limit: 0, // limit disclosure appearances, 0 is forever
+                    message: null, // customise the disclosure message
+                    fontFamily: 'helvetica', // font style for disclosure panel
+                    fontColor: '#FFFFFF', // font color for disclosure panel
+                    fontSize: '13px', // font size for disclosure panel
+                    backgroundColor: '#000000', // background color of disclosure panel
+                    backgroundOpacity: '80', // opacity of disclosure panel
+                    linkColor: '#41C8FF' // link color in disclosure panel
+                });
+            });
+        </script>
         {% block additionalJavascripts %}{% endblock %}
     </body>
 </html>

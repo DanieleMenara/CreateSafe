@@ -12,26 +12,26 @@ CreateSafe
 
 {% block body %}
     {% include 'navigationBar.html.twig' %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="jumbotron">
-                <video id="video-background" preload="auto" muted autoplay loop>
-                    <source src="{{ path('video') }}" type="video/mp4">
-                </video>
-                <div id="onVideo">
-                    <h1>Copyright Registration<br>for creatives!</h1>
-                    <p>
-                        <button type="button" class="btn blueButton btn-lg" data-toggle="modal" data-target="#myModal">
-                        Protect Now
-                        </button>
-                    </p>
-                </div>
+    <div class="row">
+        <div class="jumbotron">
+            <video id="video-background" preload="auto" muted autoplay loop>
+                <source src="{{ path('video') }}" type="video/mp4">
+            </video>
+            <div id="onVideo">
+                <h1>Copyright Registration<br>for Creatives</h1>
+                <p>
+                    <button type="button" class="btn blueButton btn-lg" data-toggle="modal" data-target="#myModal">
+                    Protect Now
+                    </button>
+                </p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>CreateSafe is a quick, secure, easy way to register the copyright in your creative work.</h2>
-                <div class="container-fluid">
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid">
+                <h2>CreateSafe is a quick, secure, easy way<br>to register the copyright in your creative work.</h2>
+                <div class="container-fluid" style="margin-top: 60px">
                     <div class="small-box">
                         <img alt="Art Icon" src="{{ asset('images/homepage/Art.png') }}"/>
                         <h3>Art</h3>
@@ -55,9 +55,11 @@ CreateSafe
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="row">
-            <div class="col-xs-12">
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid">
                 <h2>Three Quick and Easy Step</h2>
                 <p>In just two minutes, you can have a copy of your work certified.</p>
                 <div class="container-fluid">
@@ -92,6 +94,48 @@ CreateSafe
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <hr class="withShadow">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid">
+                <h2>Certified Copy Evidencing Your Ownership</h2>
+                <img class="pull-left" id="certificate" alt="Stamped creative work" src="{{ asset('images/homepage/BookStamped.png') }}"/>
+                <div class="text-left text-margin">
+                    <p>Each work that you upload to CreateSafe will be given a unique certification number. This individual cpde will identify you and the book, piece of music or image.</p>
+                    <p>The moment that you have uploaded your work to CreateSafe, you will be sent a certificate to your email address containing your unique registration number for that work.</p>
+                    <p>Back in your MY WORKS section of your CreateSafe account, certified copies of your creative works are stored with their unique codes and certificates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="withShadow blue-background" style="margin-bottom: 0;">
+    <div class="row blue-background">
+        <div class="col-xs-12">
+            <div class="container-fluid">
+                <img class="pull-right" id="safe" alt="Stamped creative work" src="{{ asset('images/homepage/SafeImageLarge.png') }}"/>
+                <div class="text-left" style="margin-left: 50px;">
+                    <h2 style="margin: 50px 0 50px 0;">Safe &amp Secure</h2>
+                    <p>Because we store a certified copy of your manuscript in our vault, you know that you have a copy safe at all times.</p>
+                    <br><p>If you ever need to demonstrate that your book, photo, cover, artwork or sheet music is yours, simply log into your CreateSafe vault and retrieve your certified copy.</p>
+                    <br><p>You can download it or email it to yourself.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="withShadow" style="margin-top: 0;">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid">
+                <h2 style="margin: 100px 0 30px 0;">Ready to Get Started?</h2>
+                <p>Register your first work now, and have some<br>piece of mind.</p>
+                <p>
+                    <button type="button" class="btn blueButton btn-lg" style="width: 100px; margin: 50px 0;" data-toggle="modal" data-target="#myModal">
+                        Go
+                    </button>
+                </p>
             </div>
         </div>
     </div>

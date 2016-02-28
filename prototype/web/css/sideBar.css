@@ -32,6 +32,10 @@ html, body {
     color: white !important;
 }
 
+.menu>a:hover {
+    text-decoration: none;
+}
+
 /* Trick to change img color to white on hovering */
 .menu>a>li:hover>.menu-option>img{
     filter: brightness(5000%);
