@@ -41,6 +41,19 @@ body {
     border-radius:1px !important;
 }
 
+.redButton {
+    background-color: #ed4300;
+    color: white;
+    border: 0;
+    -webkit-border-radius:1px !important;
+    -moz-border-radius:1px !important;
+    border-radius:1px !important;
+}
+
+.redButton:hover {
+    background-color: #c94000;
+}
+
 #impliedsubmit {
     background-color: #41C8FF;
     color: white;
@@ -72,7 +85,7 @@ button, .blueButton {
     outline: none !important;
 }
 
-.greyButton:hover, .greyButton:active, .greyButton:focus, .blueButton:hover, .blueButton:active, .blueButton:focus {
+.redButton:hover, .redButton:active, .redButton:focus, .greyButton:hover, .greyButton:active, .greyButton:focus, .blueButton:hover, .blueButton:active, .blueButton:focus {
     color: white !important;
 }
 

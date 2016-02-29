@@ -49,4 +49,12 @@ class DefaultController extends Controller
 		$response->prepare($request);
 		return $response;
 	}
+
+	/**
+	 * @Route("/features", name="features")
+	 *
+	 */
+	public function featuresAction(Request $request) {
+		return $this->render('static_pages/features.html.twig');
+	}
 }

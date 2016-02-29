@@ -5,7 +5,6 @@ CreateSafe
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/basic.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/homepage.css') }}" />
 {% endblock %}
@@ -20,7 +19,7 @@ CreateSafe
             <div id="onVideo">
                 <h1>Copyright Registration<br>for Creatives</h1>
                 <p>
-                    <button type="button" class="btn blueButton btn-lg" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="btn redButton btn-lg" data-toggle="modal" data-target="#myModal">
                     Protect Now
                     </button>
                 </p>
@@ -142,42 +141,4 @@ CreateSafe
 {% endblock %}
 
 {% block additionalJavascripts %}
-    <script>
-    $(document).ready(function () {
-        $("#dropzone").dropzone({
-            maxFilesize: 10, //MB; remember to change upload_max_filesize in php.ini too!!
-            acceptedFiles: "application/msword,application/pdf,image/*",
-            init: function() {
-              this.on("addedfile", function(file) {
-                // Create the remove button
-                var removeButton = Dropzone.createElement("<button class=\"btn btn-xs btn-danger\">Remove File</button>");
-
-
-                // Capture the Dropzone instance as closure.
-                var _this = this;
-
-                // Listen to the click event
-                removeButton.addEventListener("click", function(e) {
-                  // Make sure the button click doesn't submit the form:
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  // Remove the file preview.
-                  _this.removeFile(file);
-                });
-                // Add the button to the file preview element.
-                file.previewElement.appendChild(removeButton);
-              });
-
-              //for debugging purposes, prints response to XMLHttpRequest when an error is returned
-              this.on("error", function(file, errorMessage, xhr) {
-                alert(xhr.responseText);
-              });
-            }
-        });
-
-        $(".jumbotron").append
-    });
-    </script>
-    <script src="{{ asset('js/dropzone.js') }}"></script>
 {% endblock %}
