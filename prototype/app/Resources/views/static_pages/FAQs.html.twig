@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    CreateSafe - FAQs
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        a.anchorLink {
+            display: block;
+        }
+
+        a.anchorLink>strong {
+            font-weight: 500;
+        }
+
+        a.anchorLink:hover, a.anchorLink:active, a.anchorLink:focus {
+            text-decoration: none;
+        }
+
+        #questions {
+            margin: 30px 5%;
+            line-height: 1.5em;
+            font-size: 1.3em;
+        }
+
+        .answers {
+            margin: 0 5%;
+        }
+
+        .glyphicon {
+            font-size: 2.5em;
+            margin: 20px 10px 5px 0;
+        }
+
+        hr {
+            clear: both;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        a>span {
+            color: black
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="#navbar"></div>
+    {% include 'navigationBar.html.twig' %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid" id="questions">
+                <h1>FAQs</h1>
+                <br>
+                <a href="#copyright" rel="" class="anchorLink"><strong>What is Copyright?</strong></a>
+                <a href="#protection" rel="" class="anchorLink"><strong>What does copyright protect?</strong></a>
+                <a href="#registration" rel="" class="anchorLink"><strong>Do I have to register my copyright?</strong></a>
+                <a href="#createsafe" rel="" class="anchorLink"><strong>What does CreateSafe do?</strong></a>
+                <a href="#posting" rel="" class="anchorLink"><strong>I’ve heard I can post my book to myself and I’m protected, is that right?</strong></a>
+                <a href="#certifiedCopy" rel="" class="anchorLink"><strong>What is a certified copy?</strong></a>
+                <a href="#myCopyright" rel="" class="anchorLink"><strong>Does CreateSafe take my copyright from me?</strong></a>
+                <a href="#existance" rel="" class="anchorLink"><strong>When does Copyright come into existence?</strong></a>
+                <a href="#why" rel="" class="anchorLink"><strong>So if copyright is automatic, why should I register it?</strong></a>
+                <a href="#what" rel="" class="anchorLink"><strong>Does copyright just protect written words, or is it also photos, illustrations and book covers?</strong></a>
+                <a href="#USA" rel="" class="anchorLink"><strong>How does copyright work in the USA?</strong></a>
+                <a href="#USoffice" rel="" class="anchorLink"><strong>If I register my copyright with the US Copyright Office why would I need to do it on CreateSafe?</strong></a>
+                <a href="#UK" rel="" class="anchorLink"><strong>How does copyright work in the UK?</strong></a>
+                <a href="#world" rel="" class="anchorLink"><strong>How does copyright work in the rest of the world?</strong></a>
+                <a href="#trademarks" rel="" class="anchorLink"><strong>How is copyright different to trademarks and patents?</strong></a>
+                <a href="#idea" rel="" class="anchorLink"><strong>Can I copyright an idea?</strong></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid answers">
+                <hr>
+                <h2 id="copyright">What does copyright protect?</h2>
+                <section>Copyright is a type of protection that is granted to works of authorship i.e. works that people have created in a fixed and tangible expression e.g. in writing or in a drawing.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="protection">What does copyright protect?</h2>
+                <section>Copyright is one area of intellectual property that covers creative works that someone has ‘authored’. the words ‘authored’ here can be seen as created, because it’s not just books. See below. Copyright protects many kinds of creative works including art, photography, film, music. You might have heard a lot about copyright infringement in music and film - it’s the same thing. And, of course, it protects books. It doesn’t protect ideas, however.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="registration">Do I have to register my copyright?</h2>
+                <section>Not in order for copyright to exist. But it’s a good idea, otherwise how do you prove it? Copyright exists automatically at the moment that the ‘creator’ creates the work and puts it in a tangible form (e.g. when you type your book on your laptop).</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="createsafe">What does CreateSafe do?</h2>
+                <section>CreateSafe lets you register the copyright in your work. Think of us as a trusted and independent third party. Put another way, CreateSafe is an independent witness and a personal vault for your work all-in-one. Ultimately, if someone takes your book or your book cover and copies it without your permission, you need to prove that you own the copyright rather than them. It comes down to evidence. If you have registered your copyright with CreateSafe, you can prove that you owned it first. Simply show them the certificate. You can even write them a letter and what lawyers call ‘put them on notice’ of the fact that they are breaching your copyright. This is called a Cease & Desist letter. You can send one through your CreateSafe account for free if you need to. We even give you a certificate to show you have registered your copyright. If the person fail to stop what they’re doing (it’s usually enough to scare them!) then there are further legal steps you can take.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="posting">I’ve heard I can post my book to myself and I’m protected, is that right?</h2>
+                <section>D’oh! No, probably not. This is also called ‘Poor Man’s Copyright’. There was a myth that you could post your book to yourself and if you kept it in the envelope, it proved that on that date the book had existed.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="certifiedCopy">What is a certified copy?</h2>
+                <section>A certified copy is a copy of a document or image that has been date stamped by a third party to say ‘on this day I certify that this document existed’. When you register your book or illustration or other work with CreateSafe, we store a certified copy of your work in your account with such a date stamp. It is, in effect, evidence that on that date you had registered this work.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="myCopyright">Does CreateSafe take my copyright from me?</h2>
+                <section>Hell no. Absolutely not. Your copyright is yours and we want to make sure no one abuses your copyright or takes your hard work away from you.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="existance">When does Copyright come into existence?</h2>
+                <section>It is automatic, at the moment when the creator puts the work into some form of tangible creation. Copyright in a book is created when a writer puts words from her head onto paper, or a cover design translates the idea for a cover into an illustration.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="why">So if copyright is automatic, why should I register it?</h2>
+                <section>As we mention above, it’s all about evidence - having something independent to prove that you did actually create the work rather than someone else, like the person that copies it without your permission.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="what">Does copyright just protect written words, or is it also photos, illustrations and book covers?</h2>
+                <section>It is creative works that a person has authored. That sounds like a book, doesn’t it. but it also extends to music, films, drawings, paintings, photos and other artistic works.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="USA">How does copyright work in the USA?</h2>
+                <section>It works as we have set out above. You can also register your copyright with the US Copyright Office. They are another friendly third party, this one part of the government. there is more information on this [here] and we leave it to you to judge if you think that’s a good option for you. There is certainly no downside in registering your copyright with them.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="USoffice">If I register my copyright with the US Copyright Office why would I need to do it on CreateSafe?</h2>
+                <section>Good question. Firstly, even if you register with the US Copyright Office, if you have to prove you own the copyright in your book, you will need to show evidence from other third parties to show you own the work and to demonstrate what steps you have done to protect it. And so you have CreateSafe. But there’s more. A registration with the US Copyright Office can take anywhere between 9 months and 1.5 years to confirm your registration in writing. With CreateSafe you will have your certificate in <strong>two minutes</strong>. Also, to register your book with us is just $15 and with the Copyright Office it’s $35. To be honest, if it was us, we’d do both. your book is too important.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="UK">How does copyright work in the UK?</h2>
+                <section>As we have set out above. What’s different with the UK compared to the US is that there is no government backed department to help at all. You are on your own. There are a few options but the reason we developed CreateSafe is to provide a quick and reliable service and one that is very affordable. It costs just £5 to register your whole book.</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="world">How does copyright work in the rest of the world?</h2>
+                <section>
+                    Many countries around the world - 167 to be precise - have signed up to the Berne Convention. The convention aims to harmonise copyright law amongst those countries that have signed up to it. A sort of mutual respect for the creators of artistic works, if you like. As such, you find that most of those countries take a similar stance to copyright, what it is and how it’s protected. As such, CreateSafe is relevant to people around the world, not just the UK and US.
+                    <br><br>If you’re interested (and let’s be honest, who’s not interested in reading the fine print of international treaties!) you can read more about it <a href="http://en.wikipedia.org/wiki/Berne_Convention" target="_blank">here</a>.
+                </section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="trademarks">How is copyright different to trademarks and patents?</h2>
+                <section>Good question. Now you’re getting all legal. Think of copyright as protecting the authorship of creative works - the writing of a book, the taking of a photo, painting of, well, a painting. You get the idea.
+                    <br><br>Trademarks, on the other hand, are to do with words, phrases, logos or ‘marks’. Things like the name Virgin Atlantic and then also the logo for Virgin Atlantic. Possibly even the precise colour red that Virgin Atlantic uses in its logo and on its website. Trademarks do not necessarily get automatic protection.
+                    <br><br>A patent tends to protect inventions and discoveries. James Dyson and Henry Ford (or famously Thomas Edison) would have sought patents for their inventions. As might a pharmaceutical company for a new drug. You can’t get a patent for a book or an image.
+                    <br><br>What can I do if I think that someone has copied my work and infringed my copyright? The first question is, are you concerned? for example, someone might be promoting your book on their book blog and so you might be very happy about the fact. Alternatively, someone might have taken your book and self published it pretending its their own. And, understandably, you probably won’t be very happy about that. the first thing you’d want to do is ask them to stop. You do this by way of a Cease & Desist letter. Effectively this letter tells them that you know they are doing this, that they are in breach of the law of copyright and that they must stop doing so. This is a legal type letter. We have made it very easy for CreateSafe members. If you’ve registered your work with us, in your account, simply click on Cease & Desist and it will walk you through two easy steps: you enter some information about the work (e.g. the book that’s been copied) and the details of the person you suspect of infringing your copyright, and it will create the letter for you. Then just hit send. Done.
+                </section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+                <hr>
+                <h2 id="idea">Can I copyright an idea?</h2>
+                <section>No, see the FAQ above on [How is copyright different to trademarks and patents?]</section>
+                <a href="#navbar" rel=""><span class="glyphicon glyphicon-chevron-up pull-right" aria-hidden="true"></span></a>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block additionalJavascripts %}
+    <script>
+        var $root = $('html, body');
+        $('a').click(function() {
+            var href = $.attr(this, 'href');
+            $root.animate({
+                scrollTop: $(href).offset().top
+            }, 500, function () {
+                window.location.hash = href;
+            });
+            return false;
+        });
+    </script>
+{% endblock %}

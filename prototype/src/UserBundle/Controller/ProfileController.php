@@ -62,14 +62,52 @@ class ProfileController extends BaseController
                 array("userId" => $user->getId(), "registrationNumber" => $id)
             );
 
+        //needed for the cease&desist functionality
+        $files = $this->getDoctrine()
+            ->getRepository('AppBundle:ProtectedFile')
+            ->findBy(
+                array("userId" => $user->getId())
+            );
+
         if(!isset($file)) {
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
         return $this->render('profile/viewProtectedWork.html.twig', array(
             'user' => $user,
-            'file' => $file
+            'file' => $file,
+            'protectedFiles' => $files
         ));
+    }
+
+    public function ceaseAndDesistAction(Request $request) {
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        try {
+            $name = $request->request->get('name');
+            $work = $request->request->get('work');
+
+            //needed for the cease&desist functionality
+            $files = $this->getDoctrine()
+                ->getRepository('AppBundle:ProtectedFile')
+                ->findBy(
+                    array("userId" => $user->getId())
+                );
+            return $this->render('profile/ceaseAndDesist.html.twig', array(
+                'user' => $user,
+                'name' => $name,
+                'work' => $work,
+                'protectedFiles' => $files
+            ));
+        } catch (\Exception $e) {
+            //return $this->redirectToRoute('fos_user_profile_show');
+
+            //use for debugging purposes
+            return new Response($e->getMessage());
+        }
     }
 
     public function deleteWorkAction($id) {

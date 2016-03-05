@@ -94,54 +94,6 @@
             margin-left: 50px;
         }
 
-        select {
-            width: 200px !important;
-            display: inline !important;
-            height: 30px;
-            padding: 6px 12px;
-            font-size: 14px;
-            line-height: 1.42857143;
-            color: white !important;
-            background-color: #666666;
-            background-image: none;
-            -webkit-appearance:none;
-            -moz-appearance:none;
-            appearance:none;
-            cursor:pointer;
-            -webkit-border-radius:4px;
-            -moz-border-radius:4px;
-            border-radius:4px;
-            border:none;
-            outline:none;
-        }
-
-        /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-            select {padding-right:18px}
-        }
-
-        .selector {
-            position:relative;
-            display: inline;
-        }
-
-        .selector:after {
-            content:'>';
-            font:20px "Heiti TC", monospace;
-            color: white;
-            -webkit-transform:rotate(90deg);
-            -moz-transform:rotate(90deg);
-            -ms-transform:rotate(90deg);
-            transform:rotate(90deg);
-            right:8px; top:-7px;
-            padding:0 0 4px;
-            width: 31px;
-            text-align: center;
-            border-bottom:2px solid white;
-            position:absolute;
-            pointer-events:none;
-        }
-
         #secondRow {
             margin-top: 20px;
         }
@@ -165,6 +117,7 @@
 {% block fos_user_content %}
     {% include "navigationBar.html.twig" %}
     {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    {% include 'footer.html.twig' %}
 {% endblock fos_user_content %}
 
 {% block javascripts %}

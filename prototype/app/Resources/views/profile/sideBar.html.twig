@@ -16,7 +16,7 @@
                 <p>Register New</p>
             </li>
         </a>
-        <a href="">
+        <a style="cursor: pointer;" data-toggle="modal" data-target="#ceaseAndDesist">
             <li>
                 <div class="menu-option">
                     <img src="{{ asset("/images/icons/CeaseDesist.png") }}">
@@ -48,7 +48,7 @@
                 <p>Account Settings</p>
             </li>
         </a>
-        <a href="">
+        <a href="{{ path('FAQs') }}">
             <li>
                 <div class="menu-option">
                     <img src="{{ asset("/images/icons/FAQs.png") }}">
@@ -67,7 +67,7 @@
     </ul>
 </div>
 
-<!-- Modal -->
+<!-- Modal --> <!-- Javascript functions in layout.html.twig -->
 <div class="modal fade" id="inviteFriend" tabindex="-1" role="dialog" aria-labelledby="inviteFriendLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -79,6 +79,37 @@
                 <span>Email address:</span>
                 <input type="email" id="email" name="email" placeholder="Email" required="required" />
                 <button onClick="inviteFriend();" class="btn btn-lg blueButton btn-block" id="inviteButton">Invite Friend</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal --> <!-- Javascript functions in layout.html.twig -->
+<div class="modal fade" id="ceaseAndDesist" tabindex="-1" role="dialog" aria-labelledby="ceaseAndDesistLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Fill in details:</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path("ceaseAndDesist") }}" method="post">
+                    <span>Name of Infringer:</span>
+                    <input type="text" id="name" name="name" placeholder="Full Name" required="required" /><br>
+                    <span>Your work:</span>
+                    {% if protectedFiles is defined %}
+                        <div class="selector">
+                            <select id="work" name="work">
+                            {% for file in protectedFiles %}
+                                <option value="{{ file.originalName }}">{{ file.originalName }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    {% else %}
+                        <input type="text" id="work" name="work" placeholder="Name of your protected work" required="required" />
+                    {% endif %}
+                    <input class="btn btn-lg blueButton btn-block" type="submit" id="_submit" name="_submit" value="Cease And Desist" />
+                </form>
             </div>
         </div>
     </div>

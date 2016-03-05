@@ -57,4 +57,12 @@ class DefaultController extends Controller
 	public function featuresAction(Request $request) {
 		return $this->render('static_pages/features.html.twig');
 	}
+
+	/**
+	 * @Route("/FAQs", name="FAQs")
+	 *
+	 */
+	public function FAQsAction(Request $request) {
+		return $this->render('static_pages/FAQs.html.twig');
+	}
 }

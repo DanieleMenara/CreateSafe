@@ -24,6 +24,11 @@ deleteWork:
   defaults: { _controller: FOSUserBundle:Profile:deleteWork }
   methods: [GET]
 
+ceaseAndDesist:
+  path: /profile/ceaseAndDesist
+  defaults: { _controller: FOSUserBundle:Profile:ceaseAndDesist }
+  methods: [POST]
+
 inviteFriend:
   path: /profile/inviteFriend
   defaults: { _controller: FOSUserBundle:Profile:inviteFriend }

@@ -8,13 +8,13 @@ html, body {
     color: white;
 }
 
-html, label, p {
+html, label, p, section, strong {
     font-family: "Gill Sans" !important;
 }
 
-/*account for footer*/
-body {
-    padding-bottom: 50px;
+p, section {
+    font-size: 1.5em;
+    font-weight: lighter;
 }
 
 #dropzone {
@@ -115,18 +115,6 @@ button, .blueButton {
     padding-right: 3px !important;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: white !important;
-    border-top: 1px solid #e7e7e7;
-}
-
-.text-muted {
-    margin: 15px 0;
-}
-
 #protect {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -143,4 +131,28 @@ button, .blueButton {
 
 ul {
     list-style: none;
+}
+
+.footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f9f9 !important;
+    border-top: 1px solid #e7e7e7;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.footer label {
+    font-weight: lighter;
+    display: block;
+    color: black;
+}
+
+.footer a:hover {
+    text-decoration: none;
+}
+
+.footer label:hover {
+    color: #33ccff;
+    cursor: pointer;
 }
