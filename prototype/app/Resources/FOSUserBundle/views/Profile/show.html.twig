@@ -1,7 +1,6 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block additionalStylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sideBar.css') }}" />
     <style>
         hr {
@@ -111,11 +110,37 @@
             margin-right: 10px;
         }
 
+        .alert {
+            margin: 3px;
+        }
     </style>
 {% endblock %}
 
 {% block fos_user_content %}
     {% include "navigationBar.html.twig" %}
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                {% if type == "success" %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong>
+                    </div>
+                {% elseif type == error %}
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p><strong>Ops!</strong> Something went wrong!</p>
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
     {% include "FOSUserBundle:Profile:show_content.html.twig" %}
     {% include 'footer.html.twig' %}
 {% endblock fos_user_content %}
