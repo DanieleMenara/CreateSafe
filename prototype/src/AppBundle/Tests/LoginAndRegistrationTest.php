@@ -32,7 +32,7 @@ class LoginAndRegistrationTest extends WebTestCase {
         $this->assertTrue($this->client->getResponse()->isRedirect($homepageUrl));
 
         $crawler = $this->client->followRedirect();
-        $this->assertContains('CreateSafe', $crawler->filter('h1')->text());
+        $this->assertContains('Copyright', $crawler->filter('h1')->text());
         FakeLogin::removeUser($user, $this->container);
     }
 

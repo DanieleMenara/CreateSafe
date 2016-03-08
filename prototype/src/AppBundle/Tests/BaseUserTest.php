@@ -64,6 +64,6 @@ class BaseUserTest extends WebTestCase
         $this->uploadFakeFile();
         $crawler = $this->client->request('GET', '/payment');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertEquals('Payment.', $crawler->filter('h1')->text());
+        $this->assertEquals('Your order summary', $crawler->filter('h1')->text());
     }
 }

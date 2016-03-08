@@ -16,7 +16,7 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         //h1 on index should be 'CreateSafe'
-        $this->assertContains('CreateSafe', $crawler->filter('h1')->text());
+        $this->assertContains('Copyright', $crawler->filter('h1')->text());
     }
 
     //test that the uploading of files is successful
@@ -58,7 +58,7 @@ class DefaultControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         //should be redirected to /login where the h1 contains 'Sign in to continue.'
-        $this->assertEquals('Sign in to continue.', $crawler->filter('h1')->text());
+        $this->assertEquals('Sign in to continue', $crawler->filter('h1')->text());
     }
 
 

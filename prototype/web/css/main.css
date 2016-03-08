@@ -17,6 +17,10 @@ p, section {
     font-weight: lighter;
 }
 
+.alert>p {
+    font-size: 1.1em;
+}
+
 #dropzone {
     border: 3px dashed lightgray;
 }
