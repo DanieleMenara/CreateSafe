@@ -66,7 +66,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="box">
-                    <img class="preview" src="{{ asset("/protected/files/") ~ file.fileName }}">
+                    <img class="preview" src="{{ asset("/protected/files/") ~ app.user.id ~ '/' ~ file.fileName }}">
                     <div class="description">
                         <label id="fileName" class="lead text-capitalize">{{ file.originalName }}</label>
                         <label class="lead">{{ file.extension | upper }}</label>

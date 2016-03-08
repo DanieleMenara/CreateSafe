@@ -120,7 +120,8 @@ class PaymentController extends Controller
 
     /**
      * Rename each file before upload to a unique name (since all the files will be located in the same folder).
-     * Each file is renamed to a unique string generated using uniqid prefixed by the hashed username.
+     * Each file is renamed to a unique string generated using uniqid prefixed by the hashed username. The tot length of
+     *  the name is going to be 34 chars long (12 from hashed username and 22 from uniqid).
      *
      * @return array
      */
@@ -128,9 +129,13 @@ class PaymentController extends Controller
         $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
         $files = $manager->getFiles();
         $hashedUsername = password_hash($this->getUser()->getUsername(), PASSWORD_DEFAULT);
+        if(strlen($hashedUsername)>12) {
+            $hashedUsername = substr($hashedUsername, -12);
+        }
         $names = array();
         foreach($files as $file) {
-            $newName = uniqid($hashedUsername, true);
+            $newName = md5(uniqid(null, true));
+            $newName = $hashedUsername . substr($newName, 0, 22);
             $newName = preg_replace('((^\.)|\/|(\.$)|(\$2y\$10\$)|\.)', '', $newName); //get rid of chars that can be conflict with path specifications (e.g. forward slash)
             $name = $file->getFilename();
             $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
@@ -166,6 +171,7 @@ class PaymentController extends Controller
                 throw $this->createAccessDeniedException();
             }
             $originalNames = $this->renameFiles();
+            //TODO: validate registration number is unique!!!! use validator!
             //TODO: stamping files.
             $files = $manager->uploadFiles();
             $protectedFiles = array();

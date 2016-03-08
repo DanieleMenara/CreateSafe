@@ -13,3 +13,7 @@ services:
         argument: ["@doctrine"]
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_upload, method: onUpload }
+    directory_namer.user:
+        class: AppBundle\Services\UserDirectoryNamer
+        arguments:
+            - "@security.token_storage"
