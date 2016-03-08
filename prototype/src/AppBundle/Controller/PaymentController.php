@@ -120,23 +120,17 @@ class PaymentController extends Controller
 
     /**
      * Rename each file before upload to a unique name (since all the files will be located in the same folder).
-     * Each file is renamed to a unique string generated using uniqid prefixed by the hashed username. The tot length of
-     *  the name is going to be 34 chars long (12 from hashed username and 22 from uniqid).
+     * Each file is renamed using the RegistrationNumberCreator service (current implementation: HashingRegistrationNumber).
      *
      * @return array
      */
     private function renameFiles() {
         $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
         $files = $manager->getFiles();
-        $hashedUsername = password_hash($this->getUser()->getUsername(), PASSWORD_DEFAULT);
-        if(strlen($hashedUsername)>12) {
-            $hashedUsername = substr($hashedUsername, -12);
-        }
         $names = array();
+        $namer = $this->get('registration.number.namer');
         foreach($files as $file) {
-            $newName = md5(uniqid(null, true));
-            $newName = $hashedUsername . substr($newName, 0, 22);
-            $newName = preg_replace('((^\.)|\/|(\.$)|(\$2y\$10\$)|\.)', '', $newName); //get rid of chars that can be conflict with path specifications (e.g. forward slash)
+            $newName = $namer->getUniqueRegistrationNumber();
             $name = $file->getFilename();
             $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
             rename($file->getPath().'/'.$name, $file->getPath().'/'.$newName.'.'.$file->getExtension());
@@ -164,7 +158,7 @@ class PaymentController extends Controller
         //invalidate the token. The url cannot be requested any more.
         $this->get('payum.security.http_request_verifier')->invalidate($token);
 
-        //TODO: Can merge two pages into a single page with some conditionals. To be decided.
+        //if payment is successful
         if($status->isCaptured()) {
             $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -189,6 +183,7 @@ class PaymentController extends Controller
                 $em->flush();
                 $protectedFiles[] = $protected;
             }
+
             //send certification email
             try {
                 $user = $this->getUser();

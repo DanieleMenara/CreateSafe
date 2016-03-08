@@ -17,3 +17,7 @@ services:
         class: AppBundle\Services\UserDirectoryNamer
         arguments:
             - "@security.token_storage"
+    registration.number.namer:
+        class: AppBundle\Services\HashingRegistrationNumber
+        arguments:
+            - "@security.token_storage"

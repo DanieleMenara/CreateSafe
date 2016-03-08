@@ -8,6 +8,15 @@ use Oneup\UploaderBundle\Uploader\File\FileInterface;
 use Oneup\UploaderBundle\Uploader\Naming\NamerInterface;
 use \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+/**
+ * Class UserDirectoryNamer
+ * Directory namer for both vich uploader and oneup_uploader. The upload destination folder is the userID (hence,
+ * unique for each user).
+ * service name: directory_namer.user
+ * argument: "@security.token_storage"
+ *
+ * @package AppBundle\Services
+ */
 class UserDirectoryNamer implements DirectoryNamerInterface, NamerInterface
 {
 
