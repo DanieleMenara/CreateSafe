@@ -2,8 +2,6 @@
 
 namespace AppBundle\Services;
 
-use Symfony\Component\HttpFoundation\File\File;
-
 interface RegistrationNumberCreator
 {
     /**

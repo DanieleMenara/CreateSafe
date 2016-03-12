@@ -37,6 +37,5 @@ class RegistrationNumberTest extends WebTestCase
             $this->assertNotContains($registrationNumber, $numbers);
             $numbers[] = $registrationNumber;
         }
-        var_dump($numbers);
     }
 }

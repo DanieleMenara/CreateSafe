@@ -86,7 +86,6 @@ oneup_uploader:
         gallery:
             frontend: dropzone
             use_orphanage: true
-            namer: directory_namer.user
             storage:
                 directory: %kernel.root_dir%/../web/protected/files
     orphanage:

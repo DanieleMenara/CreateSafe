@@ -7,11 +7,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Oneup\UploaderBundle\Uploader\File\FilesystemFile;
 
 class PaymentController extends Controller
 {
@@ -133,7 +135,9 @@ class PaymentController extends Controller
             $newName = $namer->getUniqueRegistrationNumber();
             $name = $file->getFilename();
             $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
-            rename($file->getPath().'/'.$name, $file->getPath().'/'.$newName.'.'.$file->getExtension());
+            $newPath = $file->getPath().'/'.$this->getUser()->getId().'/'.$newName.'.'.$file->getExtension();
+            mkdir($file->getPath().'/'.$this->getUser()->getId());
+            rename($file->getPath().'/'.$name, $newPath);
         }
         return $names;
     }

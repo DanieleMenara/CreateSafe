@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 use Oneup\UploaderBundle\Uploader\File\FileInterface;
@@ -10,14 +11,14 @@ use \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class UserDirectoryNamer
- * Directory namer for both vich uploader and oneup_uploader. The upload destination folder is the userID (hence,
+ * Directory namer for vich uploader. The upload destination folder is the userID (hence,
  * unique for each user).
  * service name: directory_namer.user
  * argument: "@security.token_storage"
  *
  * @package AppBundle\Services
  */
-class UserDirectoryNamer implements DirectoryNamerInterface, NamerInterface
+class UserDirectoryNamer implements DirectoryNamerInterface
 {
 
     /**
@@ -50,16 +51,5 @@ class UserDirectoryNamer implements DirectoryNamerInterface, NamerInterface
     public function directoryName($object, PropertyMapping $mapping)
     {
         return $this->getUser()->getId();
-    }
-
-    /**
-     * Name a given file and return the name
-     *
-     * @param  FileInterface $file
-     * @return string
-     */
-    public function name(FileInterface $file)
-    {
-        return sprintf('%s/%s', $this->getUser()->getId(), $file->getBasename());
     }
 }
