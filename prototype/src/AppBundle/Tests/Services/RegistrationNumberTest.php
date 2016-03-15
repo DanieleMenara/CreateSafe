@@ -7,7 +7,7 @@ class RegistrationNumberTest extends WebTestCase
 {
     protected $container;
     protected $client;
-    protected $user;
+    protected $mockUser;
     protected $generator;
 
     public function setUp() {
@@ -16,8 +16,11 @@ class RegistrationNumberTest extends WebTestCase
         $mockToken = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->user = FakeLogin::getUser($this->container);
-        $mockToken->expects($this->any())->method('getUser')->will($this->returnValue($this->user));
+        $this->mockUser = $this->getMockBuilder('AppBundle\Entity\User')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->changeUsername();
+        $mockToken->expects($this->any())->method('getUser')->will($this->returnValue($this->mockUser));
         $mockTokenStorage = $this->getMockBuilder('\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage')
             ->disableOriginalConstructor()
             ->getMock();
@@ -25,17 +28,20 @@ class RegistrationNumberTest extends WebTestCase
         $this->generator = new \AppBundle\Services\HashingRegistrationNumber($mockTokenStorage);
     }
 
-    public function tearDown()
-    {
-        FakeLogin::removeUser($this->user, $this->container);
+    private function changeUsername() {
+        $newUsername = substr(uniqid(), 0, 5) . "@gmail.com";
+        $this->mockUser->expects($this->any())->method('getUsername')->will($this->returnValue($newUsername));
     }
 
     public function testUniqueness() {
         $numbers = array();
-        for($i =0; $i<1000; $i++) {
-            $registrationNumber = $this->generator->getUniqueRegistrationNumber();
-            $this->assertNotContains($registrationNumber, $numbers);
-            $numbers[] = $registrationNumber;
+        for($j = 0; $j<500; $j++) {
+            for ($i = 0; $i < 25; $i++) {
+                $registrationNumber = $this->generator->getUniqueRegistrationNumber();
+                $this->assertNotContains($registrationNumber, $numbers);
+                $numbers[] = $registrationNumber;
+            }
+            $this->changeUsername();
         }
     }
 }

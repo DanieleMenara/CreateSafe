@@ -16,6 +16,10 @@ p, section {
     font-weight: lighter;
 }
 
+p {
+    font-size: 1.5em;
+}
+
 .alert>p {
     font-size: 1.1em;
 }
