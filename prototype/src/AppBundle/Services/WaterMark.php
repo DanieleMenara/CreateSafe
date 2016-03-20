@@ -131,6 +131,14 @@ class WaterMark
 		 		$pdf->Write(1, $this->serial);
 			}
 			$pdf->Output($this->pathToFile, 'F');
+
+			//create image preview of first page for visualisation purposes.
+			$firstpage = $this->pathToFile.'[0]';
+			$image = new \Imagick($firstpage);
+			$image->setResolution( 300, 300 );
+			$image->setImageFormat( "png" );
+			header("Content-Type: image/png");
+			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
 		}
 	}
 

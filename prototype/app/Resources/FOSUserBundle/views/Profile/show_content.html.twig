@@ -31,7 +31,11 @@
                 <ul class="list">
                     {% for file in protectedFiles %}
                         <li class="clearfix">
-                            <img class="preview" src="{{ asset("/protected/files/") ~ app.user.id ~ '/' ~ file.fileName }}">
+                            {% if file.extension == 'pdf' %}
+                                <img class="preview" src="{{ asset("/protected/files/") ~ app.user.id ~ '/' ~ file.registrationNumber ~ '.png' }}">
+                            {% else %}
+                                <img class="preview" src="{{ asset("/protected/files/") ~ app.user.id ~ '/' ~ file.fileName }}">
+                            {% endif %}
                             <div class="description">
                                 <label id="fileName" class="lead text-capitalize">{{ file.originalName }}</label>
                                 <label class="lead">{{ file.extension | upper }}</label>
