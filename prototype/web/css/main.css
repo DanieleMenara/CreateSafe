@@ -14,9 +14,6 @@ html, label, p, section, strong {
 
 p, section {
     font-weight: lighter;
-}
-
-p {
     font-size: 1.5em;
 }
 

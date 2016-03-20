@@ -21,3 +21,7 @@ services:
         class: AppBundle\Services\HashingRegistrationNumber
         arguments:
             - "@security.token_storage"
+    watermark.marker:
+        class: AppBundle\Services\WaterMark
+        arguments:
+            - "@service_container"

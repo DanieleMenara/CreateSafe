@@ -23,7 +23,10 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "payum/payum-bundle": "~1.0.3",
         "payum/paypal-express-checkout-nvp": "~1.1.2",
-        "vich/uploader-bundle": "^0.14.0"
+        "vich/uploader-bundle": "^0.14.0",
+        "tecnickcom/tcpdf": "6.*",
+        "setasign/fpdi": "1.*",
+        "setasign/fpdf": "^1.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

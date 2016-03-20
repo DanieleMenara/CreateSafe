@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Oneup\UploaderBundle\Uploader\File\FilesystemFile;
+use WaterMark;
 
 class PaymentController extends Controller
 {
@@ -136,10 +137,20 @@ class PaymentController extends Controller
             $name = $file->getFilename();
             $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
             $newPath = $file->getPath().'/'.$this->getUser()->getId().'/'.$newName.'.'.$file->getExtension();
-            mkdir($file->getPath().'/'.$this->getUser()->getId());
+            if(!file_exists($file->getPath().'/'.$this->getUser()->getId())) {
+                mkdir($file->getPath() . '/' . $this->getUser()->getId());
+            }
             rename($file->getPath().'/'.$name, $newPath);
         }
         return $names;
+    }
+
+    private function stampFiles($files)
+    {
+        $marker = $this->get('watermark.marker');
+        foreach($files as $file) {
+            $marker->marker($file->getPathname());
+        }
     }
 
     /**
@@ -169,9 +180,8 @@ class PaymentController extends Controller
                 throw $this->createAccessDeniedException();
             }
             $originalNames = $this->renameFiles();
-            //TODO: validate registration number is unique!!!! use validator!
-            //TODO: stamping files.
             $files = $manager->uploadFiles();
+            $this->stampFiles($files);
             $protectedFiles = array();
             foreach($files as $file) {
                 $protected = new ProtectedFile();
@@ -198,7 +208,7 @@ class PaymentController extends Controller
                     ->setTo($emailTo)
                     ->setBody(
                         $this->renderView(
-                            'views/email/certification.html.twig',
+                            'email/certification.html.twig',
                             array('files' => $protectedFiles)
                         ),
                         'text/html'
@@ -206,9 +216,8 @@ class PaymentController extends Controller
                 $this->get('mailer')->send($message);
             } catch (\Exception $e) {
                 //TODO: log exception;
-                return new Response($protectedFiles);
                 //use for debugging purposes
-                //$response['error'] = $e->getMessage();
+                return new Response($e->getMessage());
             }
             $response = $this->render('payment/success.html.twig');
         } else {
