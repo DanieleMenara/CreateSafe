@@ -56,7 +56,7 @@ class WaterMark
 			$image = new \Imagick;
 			$image->readImage($this->pathToFile);
 
-			$fontSize = 35;	//Size of the font 
+			$fontSize = 50;	//Size of the font
 
 			$draw = new \ImagickDraw();
 			$draw->setFillColor("rgb(85, 196, 241)");	//The same colour as the logo of createsafe.
@@ -75,10 +75,13 @@ class WaterMark
 			$y_WM = (($imHeight - $wmHeight) / 2);
 
 			$x_AN = $x_WM + ($wmWidth / 4);
-			$y_AN = (($imHeight + $wmHeight ) / 2 + 50);
+			$y_AN = (($imHeight + $wmHeight ) / 2 + 60);
 
 			//Composition of a watermark logo.
 			$image->compositeImage($watermark, \imagick::COMPOSITE_OVER, $x_WM, $y_WM);
+
+            //set image compression
+            $image->setImageCompressionQuality(20);
 
 			//Annotation including serial number
 			$image->annotateImage($draw, $x_AN, $y_AN, 0, $this->serial);

@@ -66,6 +66,13 @@ class ProtectedFile
     private $extension;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $path;
+
+    /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
@@ -118,6 +125,7 @@ class ProtectedFile
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTime('now');
+            $this->setPath($newFile->getPath());
         }
 
         return $this;
@@ -129,6 +137,26 @@ class ProtectedFile
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * @param string $newPath
+     *
+     * @return ProtectedFile
+     */
+    public function setPath($newPath)
+    {
+        $this->path = $newPath;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

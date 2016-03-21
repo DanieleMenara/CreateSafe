@@ -4,6 +4,8 @@ namespace UserBundle\Controller;
 
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -126,6 +128,12 @@ class ProfileController extends BaseController
 
         if(!isset($file)) {
             return $this->redirectToRoute('fos_user_profile_show');
+        }
+
+        //If file is a PDF remove the png preview created for visualisation purposes as well.
+        if($file->getExtension() == 'pdf') {
+            $dir = new Filesystem();
+            $dir->remove($file->getPath().'/'.$file->getRegistrationNumber().'.png');
         }
 
         $em->remove($file);
