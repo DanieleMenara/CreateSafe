@@ -102,11 +102,24 @@ class PaymentController extends Controller
 
         $storage = $this->get('payum')->getStorage('AppBundle\Entity\Payment');
 
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+        $files = $manager->getFiles();
+        $details = array();
+        foreach($files as $file) {
+            $detail = array();
+            $detail['name'] = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            $detail['description'] = $file->getExtension();
+            $detail['price'] = 5.00;
+            $detail['currency'] = 'GBP';
+            $details[] = $detail;
+        }
+
         $payment = $storage->create();
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('GBP');
-        $payment->setTotalAmount(500);
+        $payment->setTotalAmount(500*$files->count());
         $payment->setDescription('CreateSafe upload');
+        $payment->setDetails($details);
         $payment->setClientId('anId');
         $payment->setClientEmail('foo@example.com');
 
