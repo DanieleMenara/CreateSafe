@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+use Doc2PdfConverter;
 use FPDI;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -33,62 +34,121 @@ class WaterMark
 		}
 		//For images
 		if($this->ext == 'jpg' || $this->ext == 'jpeg' || $this->ext == 'png'){
+			$this->makeImageOfCertification();
 			$this->imageMarker();
 		}
 
 		//For documents
 		elseif($this->ext == 'pdf' || $this->ext == 'docx'){
 			if($this->ext == 'pdf'){
+				//$this->makeImageOfCertification();
 				$this->pdfMarker();
 			}
-
+			
+			elseif($this->ext == 'docx'){
+				$this->docxConversion();
+			}
+			
 		}
 		else {
 			throw new Exception($pathToFile);
 		}
 	}
 
+
+
+	public function makeImageOfCertification(){
+		date_default_timezone_set('UTC');
+		$timeStamp = date('jS F Y');
+
+		$text = "CERTIFIED COPY" . "\n" . ($this->serial) . "\n" . ($timeStamp);
+
+		$image = new \Imagick();
+		$draw = new \ImagickDraw();
+		$color = new \ImagickPixel('#000000');
+		$background = new \ImagickPixel("rgb(85, 196, 241)");
+
+		//$draw->setFont('Arial.ttf');
+		$draw->setFont($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('fonts/futura.ttf'));
+		$draw->setFontSize(24);
+		$draw->setFillColor($color);
+		$draw->setTextAntialias(true);
+		$draw->setStrokeAntialias(true);
+
+		//Align text to the center of the background
+		$draw->setTextAlignment(\Imagick::ALIGN_CENTER);
+
+		//Get information of annotation image
+		$metrics = $image->queryFontMetrics($draw, $text);
+
+		//Calc the distance(pixels) to move the sentences
+		$move = $metrics['textWidth'] / 2;
+		$draw->annotation($move, $metrics['ascender'], $text);
+
+		//Create an image of certification
+		$image->newImage($metrics['textWidth'], $metrics['textHeight'], $background);
+		$image->setImageFormat('png');
+		$image->drawImage($draw);
+
+		//Save an image temporary
+		$image->writeImage("cert_" . ($this->serial) . "_.png");
+	}
+
+
+
 	public function imageMarker(){
 		if($this->pathToFile == '') {
 			return;
 		}
 		if ($this->ext == 'jpg' || $this->ext == 'jpeg' || $this->ext == 'png'){
-			$image = new \Imagick;
+			$image = new \Imagick();
 			$image->readImage($this->pathToFile);
 
-			$fontSize = 50;	//Size of the font
-
-			$draw = new \ImagickDraw();
-			$draw->setFillColor("rgb(85, 196, 241)");	//The same colour as the logo of createsafe.
-			$draw->setFont($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('fonts/futura.ttf'));
-			$draw->setFontSize($fontSize);
+			$cert = new \Imagick();
+			$cert->readImage('cert_' . ($this->serial) . '_.png');
 
 			$watermark = new \Imagick();
 			$watermark->readImage($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('images/logo/watermark.png'));	//The file location might be changed in the future
 
 			$imWidth = $image->getImageWidth();
 			$imHeight= $image->getImageHeight();
-			$wmWidth = $watermark->getImageWidth();
-			$wmHeight = $watermark->getImageHeight();
+			
+			if ($imWidth > $imHeight){	// X > Y
+				$size = $imHeight / 3;
+				//Change logo size to (fit) * Y/3
+				$watermark->resizeImage(0, $size, \Imagick::FILTER_POINT, 0);
+				//Get the width of watermark after resizing
+				$wmWidth = $watermark->getImageWidth();
 
-			$x_WM = ($imWidth - $wmWidth);
-			$y_WM = (($imHeight - $wmHeight) / 2);
+				//Change certification size to $wmWidth * (fit)
+				$cert->resizeImage($wmWidth, 0, \Imagick::FILTER_POINT, 0);
 
-			$x_AN = $x_WM + ($wmWidth / 4);
-			$y_AN = (($imHeight + $wmHeight ) / 2 + 60);
+				//Composition
+				$image->compositeImage($watermark, \imagick::COMPOSITE_OVER, ($imWidth - $size), $size);
+				$image->compositeImage($cert, \imagick::COMPOSITE_OVER, ($imWidth - $size), 2 * $size);
+				$image->setImageCompressionQuality(20);
+				$image->setImageFormat('png');
+				header("Content-Type: image/png");
+				$image->writeImage($this->pathToFile);
+				unlink('cert_' . ($this->serial) . '_.png');
+			}
 
-			//Composition of a watermark logo.
-			$image->compositeImage($watermark, \imagick::COMPOSITE_OVER, $x_WM, $y_WM);
+			elseif($imWidth <= $imHeight){	// X <= Y
+				$size = $imWidth / 3;
+				$watermark->resizeImage(0, $size, \Imagick::FILTER_POINT, 0);
+				$wmWidth = $watermark->getImageWidth();
 
-            //set image compression
-            $image->setImageCompressionQuality(20);
+				$cert->resizeImage($wmWidth, 0, \Imagick::FILTER_POINT, 0);
 
-			//Annotation including serial number
-			$image->annotateImage($draw, $x_AN, $y_AN, 0, $this->serial);
+				$image->compositeImage($watermark, \imagick::COMPOSITE_OVER, ($imWidth - $size), ($imHeight - $size)/2);
+				$image->compositeImage($cert, \imagick::COMPOSITE_OVER, ($imWidth - $size), ($imHeight + $size)/2);
+				$image->setImageCompressionQuality(20);
+				$image->setImageFormat('png');
+				header("Content-Type: image/png");
+				$image->writeImage($this->pathToFile);
+				unlink('cert_' . ($this->serial) . '_.png');
+			}
 
-			$image->setImageFormat('png');
-			header("Content-Type: image/png");
-			$image->writeImage($this->pathToFile);
 		}
 		/*
 		else {
@@ -104,6 +164,81 @@ class WaterMark
 		if ($this->ext == 'pdf'){
 			$pdf = new FPDI();
 			$pageCount = $pdf->setSourceFile($this->pathToFile);
+
+			date_default_timezone_set('UTC');
+			$timeStamp = date('jS F Y');
+
+			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+    
+    			// import a page
+ 		   		$templateId = $pdf->importPage($pageNo);
+ 		   		// get the size of the imported page
+ 			   	$size = $pdf->getTemplateSize($templateId);
+
+ 			   	// create a page (landscape or portrait depending on the imported page size)
+ 			   	if ($size['w'] > $size['h']) {
+   			     	$pdf->AddPage('L', array($size['w'], $size['h']));
+  				} 
+  				else {
+        			$pdf->AddPage('P', array($size['w'], $size['h']));
+    			}
+
+    			// use the imported page
+    			$pdf->useTemplate($templateId);
+
+    			if($size['w'] > $size['h']){	//X > Y
+
+    			}
+
+    			elseif($size['w'] <= $size['h']){	//X <= Y
+    				$sizeOfWM = $size['w'] / 3;
+
+    			}
+
+			    $x = $size['w'] / 1.7;
+				$y = $size['h'] / 4;
+
+			    $pdf->Image($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('images/logo/watermark.png'), $x, $y, 80, '', '', '', '', false, '');
+
+			    $pdf->SetFillColor(85, 196, 241);
+			    $pdf->SetTextColor('BLACK');
+			    $pdf->SetFont('Arial', '', 16);
+			    //$pdf->SetXY($x+10, $y+120);
+			    $pdf->SetXY($x, $y+120);
+		 		//$pdf->Write(1, $this->serial);
+		 		$pdf->MultiCell(80, 15, "CERTIFIED COPY" . "\n" . $this->serial . "\n" . $timeStamp, 0, 'C', 1);
+			}
+			$pdf->Output($this->pathToFile, 'F');
+
+			//create image preview of first page for visualisation purposes.
+			$firstpage = $this->pathToFile.'[0]';
+			$image = new \Imagick($firstpage);
+			$image->setResolution( 300, 300 );
+			$image->setImageFormat( "png" );
+			header("Content-Type: image/png");
+			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
+		}
+	}
+
+	
+	public function docxConversion() {
+		if($this->pathToFile == '') {
+			return;
+		}
+		if($this->ext == 'docx') {
+			require_once "PdfaidServices.php";
+			$myDoc2Pdf = new Doc2PdfConverter();
+			$myDoc2Pdf->apiKey = "bhquwu2tmnc31v";
+			$myDoc2Pdf->inputDocLocation = $this->pathToFile;
+			$myDoc2Pdf->outputPdfLocation = ($this->serial) . '.pdf';
+			$result = $myDoc2Pdf->Doc2PdfConvert();
+
+
+			$pdf = new FPDI();
+			$pageCount = $pdf->setSourceFile((dirname(__FILE__)) . "/" . ($this->serial) . ".pdf");
+
+			date_default_timezone_set('UTC');
+			$timeStamp = date('jS F Y');
 
 			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
     
@@ -128,10 +263,13 @@ class WaterMark
 
 			    $pdf->Image($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('images/logo/watermark.png'), $x, $y, 80, '', '', '', '', false, '');
 
+			    $pdf->SetFillColor(85, 196, 241);
+			    $pdf->SetTextColor('BLACK');
 			    $pdf->SetFont('Arial', '', 16);
-			    $pdf->SetTextColor(85, 196, 241);
-			    $pdf->SetXY($x+10, $y+120);
-		 		$pdf->Write(1, $this->serial);
+			    //$pdf->SetXY($x+10, $y+120);
+			    $pdf->SetXY($x, $y+120);
+		 		//$pdf->Write(1, $this->serial);
+		 		$pdf->MultiCell(80, 15, "CERTIFIED COPY" . "\n" . $this->serial . "\n" . $timeStamp, 0, 'C', 1);
 			}
 			$pdf->Output($this->pathToFile, 'F');
 
@@ -142,9 +280,11 @@ class WaterMark
 			$image->setImageFormat( "png" );
 			header("Content-Type: image/png");
 			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
-		}
-	}
 
+		}
+
+	}
+	
 
 
 }
