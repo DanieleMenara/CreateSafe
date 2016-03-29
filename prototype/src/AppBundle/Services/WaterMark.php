@@ -68,7 +68,6 @@ class WaterMark
 		$color = new \ImagickPixel('#000000');
 		$background = new \ImagickPixel("rgb(85, 196, 241)");
 
-		//$draw->setFont('Arial.ttf');
 		$draw->setFont($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('fonts/futura.ttf'));
 		$draw->setFontSize(24);
 		$draw->setFillColor($color);
@@ -227,15 +226,15 @@ class WaterMark
 		}
 		if($this->ext == 'docx') {
 			require_once "PdfaidServices.php";
-			$myDoc2Pdf = new Doc2PdfConverter();
-			$myDoc2Pdf->apiKey = "bhquwu2tmnc31v";
+			$myDoc2Pdf = new \Doc2PdfConverter();
+			$myDoc2Pdf->apiKey = "zwmvgzux2wnjjw";
 			$myDoc2Pdf->inputDocLocation = $this->pathToFile;
-			$myDoc2Pdf->outputPdfLocation = ($this->serial) . '.pdf';
+			$myDoc2Pdf->outputPdfLocation = (dirname($this->pathToFile)) . "/" . ($this->serial) . ".pdf";//($this->serial) . '.pdf';
 			$result = $myDoc2Pdf->Doc2PdfConvert();
 
 
 			$pdf = new FPDI();
-			$pageCount = $pdf->setSourceFile((dirname(__FILE__)) . "/" . ($this->serial) . ".pdf");
+			$pageCount = $pdf->setSourceFile((dirname($this->pathToFile)) . "/" . ($this->serial) . ".pdf");
 
 			date_default_timezone_set('UTC');
 			$timeStamp = date('jS F Y');
@@ -271,16 +270,19 @@ class WaterMark
 		 		//$pdf->Write(1, $this->serial);
 		 		$pdf->MultiCell(80, 15, "CERTIFIED COPY" . "\n" . $this->serial . "\n" . $timeStamp, 0, 'C', 1);
 			}
-			$pdf->Output($this->pathToFile, 'F');
+			$pdf->Output(dirname($this->pathToFile) . '/' . ($this->serial) . '.pdf', 'F');
 
 			//create image preview of first page for visualisation purposes.
-			$firstpage = $this->pathToFile.'[0]';
+			//$firstpage = $this->pathToFile.'[0]';
+			$firstpage = dirname($this->pathToFile) . '/' . ($this->serial) . '.pdf[0]';
 			$image = new \Imagick($firstpage);
 			$image->setResolution( 300, 300 );
 			$image->setImageFormat( "png" );
 			header("Content-Type: image/png");
 			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
 
+			//unlink(dirname($this->pathToFile) . '/' . ($this->serial) . '.pdf');
+			unlink($this->pathToFile);
 		}
 
 	}
