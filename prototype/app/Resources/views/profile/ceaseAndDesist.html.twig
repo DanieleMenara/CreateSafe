@@ -49,35 +49,65 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="box">
-                    <p>Dear {{ name }},
-                        <br><br>
-                        I am the lawful owner of {{ work }}.
-                        <br><br>
-                        I am writing to notify you that your unlawful copying of {{ work }} infringes upon my exclusive copyrights.  Accordingly, you are hereby directed to
-                        CEASE AND DESIST ALL COPYRIGHT INFRINGEMENT.
-                        <br><br>
-                        I am the owner of a copyright in various aspects of {{ work }} and my copyrights have been in effect since the date that {{ work }} was created. In support of this ownership you will notice the attached certificate showing the date at which my copyright was registered with CreateSafe.
-                        <br><br>
-                        It has come to my attention that you have been copying {{ work }}.  I have copies of your unlawful copies to preserve as evidence. Your actions constitute copyright infringement in violation of copyright laws and the consequences of such infringement can include a financial award of statutory damages, at the discretion of the court.  If you continue to engage in copyright infringement after receiving this letter, your actions will be evidence of “willful infringement”.
-                        <br><br>
-                        It is hereby demanded that you immediately (A) cease and desist your unlawful copying of {{ work }} and (B) provide us with prompt written assurance within ten (10) days that you will cease and desist from further infringement of my copyrighted works.
-                        <br><br>
-                        If you do not comply with this cease and desist demand within this time period, I will be entitled to use your failure to comply as evidence of “willful infringement” and seek monetary damages and equitable relief for your copyright infringement. In the event you fail to meet this demand, please be advised that I will have no choice but to contemplate pursuing all available legal remedies, including seeking monetary damages, injunctive relief, and an order that you pay court costs and legal fees.  Your liability and exposure under such legal action could be considerable.
-                        Before taking these steps, however, I wish to give you one opportunity to discontinue your illegal conduct by complying with this demand within ten (10) days.  Accordingly, please sign and return the attached Agreement within ten (10) days to {{ user.email }}.
-                        If you, or your legal adviser have any questions, please contact me directly.
-                        <br><br>
-                        Sincerely,<br>
-                        {{ user.firstName }} {{ user.lastName }}
-                    </p>
+                    {% include "profile/ceaseAndDesistLetter.html.twig" %}
                 </div>
                 <div class="shortcuts">
-                    <img src="{{ asset("/images/icons/Download.png") }}">
-                    <img src="{{ asset("/images/icons/Print.png") }}">
-                    <img class="smaller" src="{{ asset("/images/icons/Mail.png") }}">
+                    <a href="{{ path('ceaseAndDesistPDF', {'work': work.registrationNumber, 'name': name}) }}"><img src="{{ asset("/images/icons/Download.png") }}"></a>
+                    <img  style="cursor: pointer;" onclick="print('{{ path('ceaseAndDesistPDF', {'work': work.registrationNumber, 'name': name}) }}')"  src="{{ asset("/images/icons/Print.png") }}">
+                    <div id="printerDiv" style="display:none"></div>
+                    <a style="cursor: pointer;" data-toggle="modal" data-target="#sendEmail"><img class="smaller" src="{{ asset("/images/icons/Mail.png") }}"></a>
                 </div>
             </div>
+
+            <!-- Modal --> <!-- Javascript functions in layout.html.twig -->
+            <div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="senEmailLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Insert infringer's email:</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>Email address:</span>
+                            <input type="email" id="email" name="email" placeholder="Email" required="required" />
+                            <button onClick="sendEmail();" class="btn btn-lg blueButton btn-block" id="sendButton">Send Cease &amp Desist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {% include 'profile/sideBar.html.twig' %}
         </div>
     </div>
     {% include 'footer.html.twig' %}
 {% endblock fos_user_content %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        function sendEmail() {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('ceaseAndDesist') }}",
+                data: { email: $('#email').val(),
+                        work: '{{ work.registrationNumber }}',
+                        name: '{{ name }}'
+                }
+            })
+            .done(function(data) {
+                var response = jQuery.parseJSON(data);
+                if(response.success === 'true') {
+                    $('#sendEmail').modal('hide');
+                    $('#success').modal('show');
+                } else {
+                    /* for debugging purposes */
+                    if(response.hasOwnProperty('invalidEmail')) {
+                        alert("The email address you inserted is not valid.");
+                    }
+                    else if(response.hasOwnProperty('error')) {
+                        alert(response.error);
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

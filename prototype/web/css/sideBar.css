@@ -115,11 +115,11 @@ select {
     pointer-events:none;
 }
 
-#inviteFriend span, #ceaseAndDesist span {
+#inviteFriend span, #ceaseAndDesist span, #sendEmail span {
     margin-right: 10px;
 }
 
-#inviteFriend input, #ceaseAndDesist input[type="text"] {
+#inviteFriend input, #sendEmail input, #ceaseAndDesist input[type="text"] {
     font-size: 1.2em;
     -webkit-appearance:none;
     -moz-appearance:none;

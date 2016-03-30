@@ -29,6 +29,16 @@ ceaseAndDesist:
   defaults: { _controller: FOSUserBundle:Profile:ceaseAndDesist }
   methods: [POST]
 
+ceaseAndDesistPDF:
+  pattern: /profile/ceaseAndDesistPDF/work={work}&name={name}
+  defaults: { _controller: FOSUserBundle:Profile:ceaseAndDesistPDF }
+  methods: [GET]
+
+sendCertificate:
+  path: /profile/sendCertificate
+  defaults: { _controller: FOSUserBundle:Profile:sendCertificate }
+  methods: [POST]
+
 inviteFriend:
   path: /profile/inviteFriend
   defaults: { _controller: FOSUserBundle:Profile:inviteFriend }

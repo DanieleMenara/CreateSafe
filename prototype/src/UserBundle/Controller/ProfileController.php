@@ -4,8 +4,11 @@ namespace UserBundle\Controller;
 
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 use FOS\UserBundle\Model\UserInterface;
+use Swift_Attachment;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -82,19 +85,141 @@ class ProfileController extends BaseController
         ));
     }
 
+    public function sendCertificateAction(Request $request) {
+        $response = array('success' => 'false');
+        if ($request->isXMLHttpRequest() && null !== $request->request->get('registrationNumber')) {
+            try {
+                $number = $request->request->get('registrationNumber');
+                $file = $this->getDoctrine()
+                    ->getRepository('AppBundle:ProtectedFile')
+                    ->findOneBy(array("registrationNumber" => $number));
+                $this->get('email.sender')->sendCertificationEmail(array($file));
+                $response['success'] = 'true';
+            } catch (\Exception $e) {
+                $response['success'] = 'false';
+            }
+        }
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        return new Response($serializer->serialize($response, 'json'));
+    }
+
+    private function createAttachmentPDF($file, $attachment) {
+        $user = $this->getUser();
+        $attachment->SetFont('Helvetica','B',12);
+        $attachment->addPage('P');
+        $attachment->SetXY (13,30);
+        $attachment->Write(8, "Copyright Infringement Settlement Agreement\n\n\n");
+        $attachment->SetFont('Helvetica','',12);
+        $attachment->Write(10,"I, ___________________,\nagree to immediately cease and desist copying ".$file->getOriginalName().' in exchange for '.$user->getFirstName().' '.$user->getLastName()." releasing any and all claims against me for copyright infringement.\nIn the event this agreement is breached by me, ".$user->getFirstName().' '.$user->getLastName().' will be entitled to costs and attorney\'s fees in any action brought to enforce this agreement and shall be free to pursue all rights that '.$user->getFirstName().' '.$user->getLastName()." had as of the date of this letter as if this letter had never been signed.\n");
+        $attachment->Write(20, "Signed:________________________________\n");
+        $attachment->Write(20, "Dated:________________________________\n");
+        return $attachment;
+
+    }
+
+    public function ceaseAndDesistPDFAction(Request $request, $work ,$name) {
+        //try {
+            $user = $this->getUser();
+            $file = $this->getDoctrine()
+                ->getRepository('AppBundle:ProtectedFile')
+                ->findOneBy(array("registrationNumber" => $work));
+            $pdf = new \FPDI();
+            $pdf->SetFont('Helvetica', '', 11);
+            $pdf->addPage('P');
+            $pdf->SetXY (13,10);
+            $pdf->Write(8, strip_tags($this->renderView(
+                'profile/ceaseAndDesistLetter.html.twig',
+                array('user' => $user,
+                    'name' => $name,
+                    'work' => $file,)
+            )));
+            $pdf = $this->createAttachmentPDF($file, $pdf);
+        $response = new Response(
+            $pdf->Output('D', 'Cease&Desist Letter.pdf'),
+            Response::HTTP_OK
+        );
+
+        $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'Cease&Desist Letter.pdf'
+        );
+
+        return $response;
+        //} catch (\Exception $e) {
+        //    return new BinaryFileResponse(null);
+        //}
+    }
+
     public function ceaseAndDesistAction(Request $request) {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
+        if ($request->isXMLHttpRequest() && null !== $request->request->get('email')) {
+            $response = array('success' => 'false');
+            $emailTo = $request->request->get('email');
+            $emailConstraint = new Assert\Email();
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errorList = $this->get('validator')->validate(
+                $emailTo,
+                $emailConstraint
+            );
+            if(0 === count($errorList)) {
+                try {
+                    $file = $this->getDoctrine()
+                        ->getRepository('AppBundle:ProtectedFile')
+                        ->findOneBy(array("registrationNumber" => $request->request->get('work')));
+                    $name = $request->request->get('name');
+                    $attachment = new \FPDF();
+                    $pdf = $this->createAttachmentPDF($file, $attachment);
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Cease and Desist Notification')
+                        ->setFrom(array('createsafedonotreply@gmail.com' => 'CreateSafe'))
+                        ->setTo($emailTo)
+                        ->attach(Swift_Attachment::newInstance($pdf->Output('S'), 'Copyright Infringement Settlement Agreement.pdf', 'application/pdf'))
+                        ->attach(Swift_Attachment::fromPath($file->getPath().'/'.$file->getRegistrationNumber().'.'.$file->getExtension())
+                            ->setFilename($file->getOriginalName().'.'.$file->getExtension()))
+                        ->setBody(
+                            $this->renderView(
+                                'profile/ceaseAndDesistLetter.html.twig',
+                                array('user' => $user,
+                                    'name' => $name,
+                                    'work' => $file,)
+                            ),
+                            'text/html'
+                        );
+                    $this->get('mailer')->send($message);
+                    $response['success'] = 'true';
+                } catch (\Exception $e) {
+                    $response['success'] = 'false';
+
+                    //use for debugging purposes
+                    //$response['error'] = $e->getMessage();
+                }
+
+            } else {
+                $response['invalidEmail'] = true;
+            }
+            $encoders = array(new XmlEncoder(), new JsonEncoder());
+            $normalizers = array(new ObjectNormalizer());
+            $serializer = new Serializer($normalizers, $encoders);
+            return new Response($serializer->serialize($response, 'json'));
+        }
+
         try {
+            $filesRepo = $this->getDoctrine()
+                ->getRepository('AppBundle:ProtectedFile');
+
             $name = $request->request->get('name');
-            $work = $request->request->get('work');
+            $work = $filesRepo->findOneBy(array("registrationNumber" => $request->request->get('work')));
 
             //needed for the cease&desist functionality
-            $files = $this->getDoctrine()
-                ->getRepository('AppBundle:ProtectedFile')
+            $files = $filesRepo
                 ->findBy(
                     array("userId" => $user->getId())
                 );
@@ -105,10 +230,10 @@ class ProfileController extends BaseController
                 'protectedFiles' => $files
             ));
         } catch (\Exception $e) {
-            //return $this->redirectToRoute('fos_user_profile_show');
+            return $this->redirectToRoute('fos_user_profile_show');
 
             //use for debugging purposes
-            return new Response($e->getMessage());
+            //return new Response($e->getMessage());
         }
     }
 
@@ -167,7 +292,7 @@ class ProfileController extends BaseController
                         ->setTo($emailTo)
                         ->setBody(
                             $this->renderView(
-                                'views/email/inviteFriends.html.twig',
+                                'email/inviteFriends.html.twig',
                                 array('confirmationUrl' => '/', 'user' => $this->getUser())
                             ),
                             'text/html'

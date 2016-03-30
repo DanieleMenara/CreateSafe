@@ -9,6 +9,20 @@
 {% block body %}
     {% block fos_user_content %}
     {% endblock fos_user_content %}
+    <!-- Modal --> <!-- Javascript functions in layout.html.twig -->
+    <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="successLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Success!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Success!!!! :)</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block additionalJavascripts %}
@@ -33,6 +47,29 @@
                     }
                 }
             });
+        }
+        function sendCertificate(number) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('sendCertificate') }}",
+                data: { registrationNumber: number }
+            })
+            .done(function(data) {
+                var response = jQuery.parseJSON(data);
+                if(response.success === 'true') {
+                    $('#success').modal('show')
+                } else {
+                    /* for debugging purposes */
+                    if(response.hasOwnProperty('error')) {
+                        alert(response.error);
+                    }
+                }
+            });
+        }
+
+        function print(url) {
+            var div = document.getElementById("printerDiv");
+            div.innerHTML = '<iframe src="'.concat(url).concat('" onload="this.contentWindow.print();"></iframe>');
         }
     </script>
     {% block javascripts %}

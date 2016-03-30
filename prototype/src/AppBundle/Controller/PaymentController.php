@@ -135,7 +135,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Rename each file before upload to a unique name (since all the files will be located in the same folder).
+     * Rename each file before upload to a unique name (since all the files will be stored in the same folder).
      * Each file is renamed using the RegistrationNumberCreator service (current implementation: HashingRegistrationNumber).
      *
      * @return array
@@ -148,7 +148,7 @@ class PaymentController extends Controller
         foreach($files as $file) {
             $newName = $namer->getUniqueRegistrationNumber();
             $name = $file->getFilename();
-            $names[$newName.'.'.$file->getExtension()] = pathinfo($name, PATHINFO_FILENAME);
+            $names[$newName] = pathinfo($name, PATHINFO_FILENAME);
             $newPath = $file->getPath().'/'.$this->getUser()->getId().'/'.$newName.'.'.$file->getExtension();
             if(!file_exists($file->getPath().'/'.$this->getUser()->getId())) {
                 mkdir($file->getPath() . '/' . $this->getUser()->getId());
@@ -161,9 +161,17 @@ class PaymentController extends Controller
     private function stampFiles($files)
     {
         $marker = $this->get('watermark.marker');
-        foreach($files as $file) {
-            $marker->marker($file->getPathname());
+        for($i = 0; $i<count($files); $i++) {
+            $file = $files[$i];
+            $path = $file->getPathname();
+            $number = $file->getBasename($file->getExtension());
+            $marker->marker($path);
+            //if file has been converted to pdf, it has also been deleted.
+            if(!$file->isFile()) {
+                $files[$i] = new File(pathinfo($path, PATHINFO_DIRNAME).'/'.$number.'pdf');
+            }
         }
+        return $files;
     }
 
     /**
@@ -194,13 +202,13 @@ class PaymentController extends Controller
             }
             $originalNames = $this->renameFiles();
             $files = $manager->uploadFiles();
-            $this->stampFiles($files);
+            $files = $this->stampFiles($files);
             $protectedFiles = array();
             foreach($files as $file) {
                 $protected = new ProtectedFile();
                 $protected->setUserID($this->getUser()->getId());
                 $protected->setFileName($file->getFilename());
-                $protected->setOriginalName($originalNames[$file->getFilename()]);
+                $protected->setOriginalName($originalNames[pathinfo($file->getFilename(), PATHINFO_FILENAME)]);
                 $protected->setExtension($file->getExtension());
                 $protected->setDateProtected(new \DateTime('now'));
                 $protected->setRegistrationNumber(pathinfo($file->getFilename(), PATHINFO_FILENAME));
@@ -212,26 +220,8 @@ class PaymentController extends Controller
             }
 
             //send certification email
-            try {
-                $user = $this->getUser();
-                $emailTo = $user->getEmail();
-                $message = \Swift_Message::newInstance()
-                    ->setSubject('Congratulations!')
-                    ->setFrom(array('createsafedonotreply@gmail.com' => 'CreateSafe'))
-                    ->setTo($emailTo)
-                    ->setBody(
-                        $this->renderView(
-                            'email/certification.html.twig',
-                            array('files' => $protectedFiles)
-                        ),
-                        'text/html'
-                    );
-                $this->get('mailer')->send($message);
-            } catch (\Exception $e) {
-                //TODO: log exception;
-                //use for debugging purposes
-                return new Response($e->getMessage());
-            }
+            $this->get('email.sender')->sendCertificationEmail($protectedFiles);
+
             $response = $this->render('payment/success.html.twig');
         } else {
             $response =  $this->render('payment/unsuccess.html.twig');

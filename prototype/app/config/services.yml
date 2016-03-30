@@ -25,3 +25,7 @@ services:
         class: AppBundle\Services\WaterMark
         arguments:
             - "@service_container"
+    email.sender:
+        class: AppBundle\Services\EmailSender
+        arguments:
+            - "@service_container"
