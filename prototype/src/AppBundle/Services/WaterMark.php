@@ -225,63 +225,12 @@ class WaterMark
 			return;
 		}
 		if($this->ext == 'docx') {
-			require_once "PdfaidServices.php";
-			$myDoc2Pdf = new \Doc2PdfConverter();
-			$myDoc2Pdf->apiKey = "zwmvgzux2wnjjw";
-			$myDoc2Pdf->inputDocLocation = $this->pathToFile;
-			$myDoc2Pdf->outputPdfLocation = (dirname($this->pathToFile)) . "/" . ($this->serial) . ".pdf";//($this->serial) . '.pdf';
-			$result = $myDoc2Pdf->Doc2PdfConvert();
+            //convert word document to PDF using openoffice!
+            exec('/opt/homebrew-cask/Caskroom/libreoffice/5.1.1/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir '.pathinfo($this->pathToFile, PATHINFO_DIRNAME).' '.$this->pathToFile);
 
-
-			$pdf = new FPDI();
-			$pageCount = $pdf->setSourceFile((dirname($this->pathToFile)) . "/" . ($this->serial) . ".pdf");
-
-			date_default_timezone_set('UTC');
-			$timeStamp = date('jS F Y');
-
-			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-    
-    			// import a page
- 		   		$templateId = $pdf->importPage($pageNo);
- 		   		// get the size of the imported page
- 			   	$size = $pdf->getTemplateSize($templateId);
-
- 			   	// create a page (landscape or portrait depending on the imported page size)
- 			   	if ($size['w'] > $size['h']) {
-   			     	$pdf->AddPage('L', array($size['w'], $size['h']));
-  				} 
-  				else {
-        			$pdf->AddPage('P', array($size['w'], $size['h']));
-    			}
-
-    			// use the imported page
-    			$pdf->useTemplate($templateId);
-
-			    $x = $size['w'] / 1.7;
-				$y = $size['h'] / 4;
-
-			    $pdf->Image($this->container->getParameter('assetic.write_to').$this->container->get('templating.helper.assets')->getUrl('images/logo/watermark.png'), $x, $y, 80, '', '', '', '', false, '');
-
-			    $pdf->SetFillColor(85, 196, 241);
-			    $pdf->SetTextColor('BLACK');
-			    $pdf->SetFont('Arial', '', 16);
-			    //$pdf->SetXY($x+10, $y+120);
-			    $pdf->SetXY($x, $y+120);
-		 		//$pdf->Write(1, $this->serial);
-		 		$pdf->MultiCell(80, 15, "CERTIFIED COPY" . "\n" . $this->serial . "\n" . $timeStamp, 0, 'C', 1);
-			}
-			$pdf->Output(dirname($this->pathToFile) . '/' . ($this->serial) . '.pdf', 'F');
-
-			//create image preview of first page for visualisation purposes.
-			//$firstpage = $this->pathToFile.'[0]';
-			$firstpage = dirname($this->pathToFile) . '/' . ($this->serial) . '.pdf[0]';
-			$image = new \Imagick($firstpage);
-			$image->setResolution( 300, 300 );
-			$image->setImageFormat( "png" );
-			header("Content-Type: image/png");
-			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
-            
-			unlink($this->pathToFile);
+            unlink($this->pathToFile);
+            $this->setFile(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.pdf');
+            $this->pdfMarker();
 		}
 
 	}
