@@ -280,7 +280,7 @@ class WaterMark
 			$image->setImageFormat( "png" );
 			header("Content-Type: image/png");
 			$image->writeImage(pathinfo($this->pathToFile, PATHINFO_DIRNAME).'/'.$this->serial.'.png');
-
+            
 			unlink($this->pathToFile);
 		}
 
