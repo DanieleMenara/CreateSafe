@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Oneup\UploaderBundle\Uploader\File\FilesystemFile;
-use WaterMark;
 
 class PaymentController extends Controller
 {
