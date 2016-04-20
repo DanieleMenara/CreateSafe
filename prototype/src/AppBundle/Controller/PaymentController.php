@@ -112,7 +112,6 @@ class PaymentController extends Controller
             $detail['currency'] = 'GBP';
             $details[] = $detail;
         }
-
         $payment = $storage->create();
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('GBP');
@@ -199,29 +198,34 @@ class PaymentController extends Controller
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException();
             }
-            $originalNames = $this->renameFiles();
-            $files = $manager->uploadFiles();
-            $files = $this->stampFiles($files);
-            $protectedFiles = array();
-            foreach($files as $file) {
-                $protected = new ProtectedFile();
-                $protected->setUserID($this->getUser()->getId());
-                $protected->setFileName($file->getFilename());
-                $protected->setOriginalName($originalNames[pathinfo($file->getFilename(), PATHINFO_FILENAME)]);
-                $protected->setExtension($file->getExtension());
-                $protected->setDateProtected(new \DateTime('now'));
-                $protected->setRegistrationNumber(pathinfo($file->getFilename(), PATHINFO_FILENAME));
-                $protected->setFile($file);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($protected);
-                $em->flush();
-                $protectedFiles[] = $protected;
+            $logger = $this->get('logger');
+            try {
+                $originalNames = $this->renameFiles();
+                $files = $manager->uploadFiles();
+                $files = $this->stampFiles($files);
+                $protectedFiles = array();
+                foreach($files as $file) {
+                    $protected = new ProtectedFile();
+                    $protected->setUserID($this->getUser()->getId());
+                    $protected->setFileName($file->getFilename());
+                    $protected->setOriginalName($originalNames[pathinfo($file->getFilename(), PATHINFO_FILENAME)]);
+                    $protected->setExtension($file->getExtension());
+                    $protected->setDateProtected(new \DateTime('now'));
+                    $protected->setRegistrationNumber(pathinfo($file->getFilename(), PATHINFO_FILENAME));
+                    $protected->setFile($file);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($protected);
+                    $em->flush();
+                    $protectedFiles[] = $protected;
+                }
+
+                //send certification email
+                $this->get('email.sender')->sendCertificationEmail($protectedFiles);
+                $response = $this->render('payment/success.html.twig');
+            } catch(\Exception $e) {
+                $logger->critical($e->getMessage());
+                $response =  $this->render('payment/unsuccess.html.twig');
             }
-
-            //send certification email
-            $this->get('email.sender')->sendCertificationEmail($protectedFiles);
-
-            $response = $this->render('payment/success.html.twig');
         } else {
             $response =  $this->render('payment/unsuccess.html.twig');
         }

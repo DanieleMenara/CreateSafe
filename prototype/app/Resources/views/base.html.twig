@@ -49,7 +49,7 @@
                     linkColor: '#41C8FF' // link color in disclosure panel
                 });
 
-                if(!$("#dropzone").isEmptyObject()) {
+                if(!jQuery.isEmptyObject($("#dropzone"))) {
                     $("#dropzone").dropzone({
                         maxFilesize: 10, //MB; remember to change upload_max_filesize in php.ini too!!
                         acceptedFiles: "application/msword,application/pdf,image/*",

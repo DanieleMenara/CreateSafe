@@ -115,12 +115,12 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     resetting:
         email:
-            template: FOSUserBundle/views/email/password_resetting.email.twig
+            template: FOSUserBundle::email/password_resetting.email.twig
         form:
             type: FOS\UserBundle\Form\Type\ResettingFormType
     profile:
-            form:
-                type: AppBundle\Form\ProfileFType
+        form:
+            type: AppBundle\Form\ProfileFType
     registration:
         confirmation:
             enabled: true
