@@ -49,10 +49,10 @@
                     linkColor: '#41C8FF' // link color in disclosure panel
                 });
 
-                if(!jQuery.isEmptyObject($("#dropzone"))) {
+                if(!jQuery.isEmptyObject("#dropzone")) {
                     $("#dropzone").dropzone({
                         maxFilesize: 10, //MB; remember to change upload_max_filesize in php.ini too!!
-                        acceptedFiles: "application/msword,application/pdf,image/*",
+                        acceptedFiles: "application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                         init: function () {
                             this.on("addedfile", function (file) {
                                 // Create the remove button
@@ -63,7 +63,7 @@
                                 var _this = this;
 
                                 // Listen to the click event
-                                removeButton.addEventListener("click", function (e) {
+                                /*removeButton.addEventListener("click", function (e) {
                                     // Make sure the button click doesn't submit the form:
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -72,7 +72,7 @@
                                     _this.removeFile(file);
                                 });
                                 // Add the button to the file preview element.
-                                file.previewElement.appendChild(removeButton);
+                                file.previewElement.appendChild(removeButton);*/
                             });
 
                             //for debugging purposes, prints response to XMLHttpRequest when an error is returned
